@@ -12,35 +12,30 @@ import { AppState } from '../app.state';
 export class PagesComponent implements OnInit {
 
     public isMenuCollapsed:boolean = false;
-  
-    constructor(private _state:AppState, 
+
+    constructor(private _state:AppState,
                 private _location:Location) {
         this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
             this.isMenuCollapsed = isCollapsed;
-        });    
+        });
     }
 
     ngOnInit() {
         this.getCurrentPageName();
     }
 
-    public getCurrentPageName():void{       
+    public getCurrentPageName():void{
         let url = this._location.path();
-        let hash = (window.location.hash) ? '#' : '';    
+        let hash = (window.location.hash) ? '#' : '';
         setTimeout(function(){
-            let subMenu = jQuery('a[href="'+ hash + url + '"]').closest("li").closest("ul");            
+            let subMenu = jQuery('a[href="'+ hash + url + '"]').closest("li").closest("ul");
             window.scrollTo(0, 0);
-            subMenu.closest("li").addClass("sidebar-item-expanded"); 
-            subMenu.slideDown(250);    
+            subMenu.closest("li").addClass("sidebar-item-expanded");
+            subMenu.slideDown(250);
         });
     }
 
     public hideMenu():void{
-        this._state.notifyDataChanged('menu.isCollapsed', true);    
+        this._state.notifyDataChanged('menu.isCollapsed', true);
     }
-
-    public ngAfterViewInit(): void {
-        document.getElementById('preloader').style['display'] = 'none';
-    }
-
 }

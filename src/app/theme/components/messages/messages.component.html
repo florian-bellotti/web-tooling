@@ -1,6 +1,6 @@
 
-<ul class="notifications"> 
- 
+<ul class="notifications">
+
     <li class="dropdown message-menu">
         <a href class="dropdown-toggle message" data-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-envelope-o"></i>
@@ -16,16 +16,16 @@
             </div>
             <div class="list" slim-scroll [slimScrollOptions]="{height: 250}">
                 <a *ngFor="let message of messages" href class="transition">
-                    <img src="{{ ( message.image || (message.name | profilePicture)) }}">                    
+                    <img src="{{ message.image }}">
                     <div class="list-content">
                         <h3>{{message.name}} <span class="pull-right"><i class="fa fa-clock-o"></i> {{message.time}}</span></h3>
                         <p>{{message.text}}</p>
                     </div>
                 </a>
-            </div> 
+            </div>
             <div class="footer">
                 <a href="javascript:void(0);" class="transition">View all messages</a>
-            </div> 
+            </div>
         </div>
     </li>
 
@@ -43,19 +43,19 @@
                 <a href="javascript:void(0);" class="transition">Mark All as Read</a>
                 <a href="javascript:void(0);" class="transition">Settings</a>
             </div>
-            <div class="list" slim-scroll [slimScrollOptions]="{height: 250}"> 
+            <div class="list" slim-scroll [slimScrollOptions]="{height: 250}">
                 <a *ngFor="let notification of notifications" href class="transition">
-                    <img src="{{ ( notification.image || (notification.name | profilePicture)) }}">                    
+                    <img src="{{ notification.image }}">
                     <div class="list-content">
                         <h3>{{notification.name}} <span class="pull-right"> {{notification.time}}</span></h3>
                         <p>{{notification.text}}</p>
                     </div>
                 </a>
-            </div> 
+            </div>
             <div class="footer">
                 <a href="javascript:void(0);" class="transition">View all notifications</a>
-            </div> 
-        </div> 
+            </div>
+        </div>
     </li>
 
     <li class="dropdown task-menu">
@@ -81,7 +81,7 @@
             </div>
             <div class="footer">
                 <a href="javascript:void(0);" class="transition">View all tasks</a>
-            </div>     
+            </div>
         </div>
     </li>
 
