@@ -1,18 +1,14 @@
 <az-navbar></az-navbar>
-<div class="container-fluid">         
-    <div class="row"> 
+<div class="container-fluid">
+    <div class="row">
         <az-menu></az-menu>
         <!--<az-sidebar></az-sidebar>-->
-        <div class="main-wrapper"  [ngClass]="{'menu-collapsed': isMenuCollapsed}"> 
+        <div class="main-wrapper"  [ngClass]="{'menu-collapsed': isMenuCollapsed}">
             <div class="az-overlay" *ngIf="!isMenuCollapsed" (click)="hideMenu()"></div>
 
             <div class="main">
-                <az-breadcrumb></az-breadcrumb>
                 <router-outlet></router-outlet>
-            </div> 
-
-          
-
+            </div>
 
             <footer class="footer text-center clearfix">
                 <div class="footer-main pull-left  clearfix">
@@ -21,13 +17,13 @@
                         <li><a href="https://www.facebook.com/themeseason" target="_blank"><i class="socicon socicon-facebook transition"></i></a></li>
                         <li><a href="https://twitter.com/themeseason" target="_blank"><i class="socicon socicon-twitter transition"></i></a></li>
                         <li><a href="https://www.instagram.com/themeseason" target="_blank"><i class="socicon socicon-instagram transition"></i></a></li>
-                        <li><a href="https://www.pinterest.com/themeseason" target="_blank"><i class="socicon socicon-pinterest transition"></i></a></li>              
+                        <li><a href="https://www.pinterest.com/themeseason" target="_blank"><i class="socicon socicon-pinterest transition"></i></a></li>
                     </ul>
                 </div>
 
 
                 <div class="pull-right created">Created with <i class="fa fa-heart"></i></div>
-                
+
             </footer>
 
             <az-back-top position="200"></az-back-top>

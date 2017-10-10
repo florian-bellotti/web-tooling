@@ -15,7 +15,6 @@ import { MenuComponent } from '../theme/components/menu/menu.component';
 import { SidebarComponent } from '../theme/components/sidebar/sidebar.component';
 import { NavbarComponent } from '../theme/components/navbar/navbar.component';
 import { MessagesComponent } from '../theme/components/messages/messages.component';
-import { BreadcrumbComponent } from '../theme/components/breadcrumb/breadcrumb.component';
 import { BackTopComponent } from '../theme/components/back-top/back-top.component';
 
 @NgModule({
@@ -34,7 +33,6 @@ import { BackTopComponent } from '../theme/components/back-top/back-top.componen
     SidebarComponent,
     NavbarComponent,
     MessagesComponent,
-    BreadcrumbComponent,
     BackTopComponent
   ]
 })

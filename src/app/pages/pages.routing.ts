@@ -10,7 +10,7 @@ export const routes: Routes = [
         component: PagesComponent,
         children:[
             { path:'', redirectTo:'blank', pathMatch:'full' },
-            { path: 'blank', component: BlankComponent, data: { breadcrumb: 'Blank page' } }
+            { path: 'blank', component: BlankComponent }
         ]
     }
 ];
