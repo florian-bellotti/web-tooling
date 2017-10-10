@@ -17,20 +17,17 @@ import { NavbarComponent } from '../theme/components/navbar/navbar.component';
 import { MessagesComponent } from '../theme/components/messages/messages.component';
 import { BreadcrumbComponent } from '../theme/components/breadcrumb/breadcrumb.component';
 import { BackTopComponent } from '../theme/components/back-top/back-top.component';
-import { SearchComponent } from './search/search.component';
-
-
 
 @NgModule({
   imports: [
     CommonModule,
-    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG), 
-    ToastrModule.forRoot(),   
+    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
+    ToastrModule.forRoot(),
     DirectivesModule,
     PipesModule,
     routing
   ],
-  declarations: [ 
+  declarations: [
     PagesComponent,
     BlankComponent,
     MenuComponent,
@@ -39,7 +36,7 @@ import { SearchComponent } from './search/search.component';
     MessagesComponent,
     BreadcrumbComponent,
     BackTopComponent,
-    SearchComponent 
+    SearchComponent
   ]
 })
 export class PagesModule { }
