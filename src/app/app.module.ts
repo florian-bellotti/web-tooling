@@ -3,29 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AgmCoreModule } from '@agm/core';
-
 import { routing } from './app.routing';
 import { AppConfig } from './app.config';
 
 import { AppComponent } from './app.component';
-import { ErrorComponent } from './pages/error/error.component';
-
-
-
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ErrorComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDe_oVpi9eRSN99G4o6TwVjJbFBNr58NxE'
-    }),
-    routing   
+    routing
   ],
   providers: [AppConfig],
   bootstrap: [AppComponent]

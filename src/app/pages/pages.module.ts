@@ -35,8 +35,7 @@ import { BackTopComponent } from '../theme/components/back-top/back-top.componen
     NavbarComponent,
     MessagesComponent,
     BreadcrumbComponent,
-    BackTopComponent,
-    SearchComponent
+    BackTopComponent
   ]
 })
 export class PagesModule { }

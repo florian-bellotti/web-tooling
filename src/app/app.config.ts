@@ -5,7 +5,7 @@ import 'sass-to-js/js/src/sass-to-js.js';
 @Injectable()
 export class AppConfig {
 
-   sassVariables:any; 
+   sassVariables:any;
    config:any;
 
    constructor(){
@@ -28,24 +28,24 @@ export class AppConfig {
                 grayLight: this.sassVariables['gray-light']
             }
         }
-   }   
+   }
 
     getSassVariables() {
         let variables = jQuery('body').sassToJs({pseudoEl:"::after", cssProperty: "content"});
-        return variables;         
+        return variables;
     }
- 
+
     rgba(color, opacity){
         if(color.indexOf('#') >= 0){
             if(color.slice(1).length == 3){
                 color= '#' + color.slice(1) + '' + color.slice(1);
-            }            
+            }
             return new Color(new HEX(color)).setAlpha(opacity).toString();
-        } 
+        }
         else{
-            console.log("incorrect color: " + color); 
-            return 'rgba(255,255,255,0.7)'; 
-        }     
+            console.log("incorrect color: " + color);
+            return 'rgba(255,255,255,0.7)';
+        }
     }
 
 }
