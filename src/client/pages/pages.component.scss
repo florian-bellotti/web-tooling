@@ -1,5 +1,5 @@
-@import "../theme/styles/variables";
-@import "../theme/styles/mixins";
+@import "../common/styles/variables";
+@import "../common/styles/mixins";
 
 body::before{
     content: '';
@@ -9,11 +9,11 @@ body::before{
     top: 0;
     left: 0;
     //@include theme-bg($body-bg-gradient-color-1, $body-bg-gradient-color-2);
-    background: $body-bg-color; // #5b6e8a;      
+    background: $body-bg-color; // #5b6e8a;
     z-index: -1;
 }
 
-.main-wrapper{ 
+.main-wrapper{
     margin-left: $sidebar-width;
     padding: 30px 40px 60px;
     margin-top: $navbar-height;
@@ -21,7 +21,7 @@ body::before{
     flex: 1;
     // min-height: calc(100vh - 70px);
     overflow: hidden;
-    &.menu-collapsed{ 
+    &.menu-collapsed{
         margin-left: 50px;
     }
 }
@@ -29,7 +29,7 @@ body::before{
 .main{
     height: 100%;
    // min-height: 500px;
-    min-height: calc(100vh - 202px);   
+    min-height: calc(100vh - 202px);
 }
 
 
@@ -72,8 +72,8 @@ body::before{
                     &.socicon-pinterest{
                         background-color: $pinterest-color;
                     }
-                    &:hover{                         
-                        opacity: 0.9;     
+                    &:hover{
+                        opacity: 0.9;
                     }
                 }
             }
@@ -83,9 +83,9 @@ body::before{
         color: $text-color;
         font-size: 14px;
         i{
-            color: red; 
+            color: red;
         }
-    }   
+    }
 }
 
 .az-overlay{
@@ -94,18 +94,18 @@ body::before{
     z-index: 8;
     background: rgba($main-color, 0.2);
     width: 100%;
-    height: 100%; 
-    display: none;   
+    height: 100%;
+    display: none;
 }
 
 
-@media (max-width: 544px) { 
+@media (max-width: 544px) {
     .main-wrapper, .main-wrapper.menu-collapsed{
         margin-left: 0;
         padding: 30px 20px 70px;
-    } 
+    }
     .main{
-        min-height: calc(100vh - 240px);   
+        min-height: calc(100vh - 240px);
     }
     .az-overlay{
         display: block;
@@ -115,11 +115,11 @@ body::before{
     }
 }
 
-@media (min-width: 544px) and (max-width: 768px) { 
+@media (min-width: 544px) and (max-width: 768px) {
     .main-wrapper, .main-wrapper.menu-collapsed{
        margin-left: 50px;
-    } 
+    }
     .az-overlay{
         display: block;
     }
-} 
+}
