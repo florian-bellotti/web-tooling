@@ -20,7 +20,7 @@
       "prefix": "az",
       "styles": [
         "../node_modules/font-awesome/scss/font-awesome.scss",
-	      "../node_modules/bootstrap/scss/bootstrap.scss",        
+	      "../node_modules/bootstrap/scss/bootstrap.scss",
         "../node_modules/socicon/css/socicon.css",
         "../node_modules/metrojs/release/MetroJs.Full/MetroJs.css",
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
@@ -39,7 +39,7 @@
         "../node_modules/topojson/dist/topojson.min.js",
         "../node_modules/datamaps/dist/datamaps.all.hires.min.js",
         "../node_modules/moment/moment.js",
-        "../node_modules/fullcalendar/dist/fullcalendar.min.js",       
+        "../node_modules/fullcalendar/dist/fullcalendar.min.js",
         "../node_modules/dropzone/dist/dropzone.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
       ],
@@ -50,11 +50,6 @@
       }
     }
   ],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
   "lint": [
     {
       "project": "src/tsconfig.app.json"
