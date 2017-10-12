@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { routing } from './app.routing';
+import { routing } from './routing';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './common/components/navbar/navbar.component';
