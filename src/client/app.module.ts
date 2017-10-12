@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { routing } from './app.routing';
-import { AppConfig } from './app.config';
 
 import { AppComponent } from './app.component';
 
@@ -16,7 +15,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     routing
   ],
-  providers: [AppConfig],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
