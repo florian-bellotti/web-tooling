@@ -3,8 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: 'pages', loadChildren: 'client/home/pages.module#PagesModule' }
+  { path: '', loadChildren: 'client/home/pages.module#PagesModule', pathMatch: 'full' }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {});

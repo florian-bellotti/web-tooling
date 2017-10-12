@@ -10,7 +10,6 @@ import { DirectivesModule } from '../common/directives/directives.module';
 import { PipesModule } from '../common/pipes/pipes.module';
 import { routing } from './pages.routing';
 import { PagesComponent } from './pages.component';
-import { BlankComponent } from './blank/blank.component';
 import { MenuComponent } from '../common/components/menu/menu.component';
 import { SidebarComponent } from '../common/components/sidebar/sidebar.component';
 import { NavbarComponent } from '../common/components/navbar/navbar.component';
@@ -28,7 +27,6 @@ import { BackTopComponent } from '../common/components/back-top/back-top.compone
   ],
   declarations: [
     PagesComponent,
-    BlankComponent,
     MenuComponent,
     SidebarComponent,
     NavbarComponent,
