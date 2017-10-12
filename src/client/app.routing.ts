@@ -2,8 +2,11 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// Internal
+import { PagesComponent } from './home/pages.component';
+
 export const routes: Routes = [
-  { path: '', loadChildren: 'client/home/pages.module#PagesModule', pathMatch: 'full' }
+  { path: '', component: PagesComponent, pathMatch: 'full' }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {});
