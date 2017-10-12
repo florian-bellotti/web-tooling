@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import { Location } from '@angular/common';
-import { AppState } from '../app.state';
+import { AppState } from '../../../app.state';
 
 @Component({
   selector: 'az-pages',
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.scss'],
+  templateUrl: './template.html',
+  styleUrls: ['./styles.scss'],
   providers: [ AppState ]
 })
 export class PagesComponent implements OnInit {

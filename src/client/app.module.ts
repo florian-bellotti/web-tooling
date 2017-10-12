@@ -6,7 +6,7 @@ import { routing } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './common/components/navbar/navbar.component';
-import { PagesComponent } from './home/pages.component';
+import { PagesComponent } from './home/pages/HomePage/HomePage';
 import { MessagesComponent } from './common/components/messages/messages.component';
 import { BackTopComponent } from './common/components/back-top/back-top.component';
 import { DirectivesModule } from './common/directives/directives.module';

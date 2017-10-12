@@ -3,7 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Internal
-import { PagesComponent } from './home/pages.component';
+import { PagesComponent } from './home/pages/HomePage/HomePage';
 
 export const routes: Routes = [
   { path: '', component: PagesComponent, pathMatch: 'full' }
