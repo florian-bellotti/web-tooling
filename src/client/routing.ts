@@ -4,9 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Internal
 import { PagesComponent } from './home/pages/HomePage/HomePage';
+import {AuthGuard} from './login/providers/auth-guard.service';
 
 export const routes: Routes = [
-  { path: '', component: PagesComponent, pathMatch: 'full' }
+  {
+      path: '',
+      component: PagesComponent,
+      pathMatch: 'full',
+      canActivate: [AuthGuard],
+  },
+    { path: 'cra',  loadChildren: './home/pages/cra/cra.module#CraModule' },
+    { path: 'login',  loadChildren: './login/login.module#LoginModule' },
+    {path: '**', redirectTo: ''}
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {});

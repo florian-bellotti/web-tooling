@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpModule} from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { routing } from './routing';
@@ -10,22 +11,28 @@ import { PagesComponent } from './home/pages/HomePage/HomePage';
 import { MessagesComponent } from './common/components/messages/messages.component';
 import { BackTopComponent } from './common/components/back-top/back-top.component';
 import { DirectivesModule } from './common/directives/directives.module';
+import {LoginModule} from './login/login.module';
+import {AuthService} from './login/providers/auth.service';
+import {AuthGuard} from "./login/providers/auth-guard.service";
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    PagesComponent,
-    MessagesComponent,
-    BackTopComponent
+      AppComponent,
+      NavbarComponent,
+      PagesComponent,
+      MessagesComponent,
+      BackTopComponent
   ],
   imports: [
-    DirectivesModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    routing
+      DirectivesModule,
+      BrowserModule,
+      BrowserAnimationsModule,
+      LoginModule,
+      HttpModule,
+      routing
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard, HttpModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
