@@ -15,7 +15,6 @@ import {LoginModule} from './login/login.module';
 import {AuthService} from './login/providers/auth.service';
 import {AuthGuard} from "./login/providers/auth-guard.service";
 
-
 @NgModule({
   declarations: [
       AppComponent,

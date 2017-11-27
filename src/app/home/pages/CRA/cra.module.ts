@@ -6,7 +6,7 @@ import { CraComponent } from './cra.component';
 import { DirectivesModule } from '../../../common/directives/directives.module';
 
 export const routes = [
-  { path: 'cra', component: CraComponent, pathMatch: 'full' }
+  { path: '', component: CraComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

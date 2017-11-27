@@ -2,13 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
 
 @Component({
-  selector: 'tooling-cra',
+  selector: 'app-tooling-cra',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './cra.component.html'
 })
 export class CraComponent {
-    public config:any;
-    public configFn:any; 
+    public config: any;
+    public configFn: any;
 
     calendarOptions: any;
     $calendar: any;
@@ -154,8 +154,8 @@ console.log('test')
                 let compareDate = date.toDate().toDateString(); 
                 if (today == compareDate) {
                     cell.css("background-color", "#ccc");
-                }          
-            } 
+                }
+            }
         };
     };
 

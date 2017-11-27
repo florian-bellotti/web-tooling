@@ -2,10 +2,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from './providers/auth.service';
-import { User } from './models/user';
+import { UserLogin } from './models/userLogin';
 
 @Component({
-  selector: 'tooling-login',
+  selector: 'app-login',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -15,12 +15,13 @@ export class LoginComponent {
     public form: FormGroup;
     public email: AbstractControl;
     public password: AbstractControl;
+    public errorMessage: string;
 
-    constructor(router: Router, fb: FormBuilder, private _authService: AuthService) {
+    constructor(router: Router, fb: FormBuilder, private authService: AuthService) {
         this.router = router;
         this.form = fb.group({
             'email': ['', Validators.compose([Validators.required, emailValidator])],
-            'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+            'password': ['', Validators.compose([Validators.required])]
         });
 
         this.email = this.form.controls['email'];
@@ -29,11 +30,21 @@ export class LoginComponent {
 
     public onSubmit(values): void {
         if (this.form.valid) {
-            const user = new User(values.email, values.password, '123456');
-            this._authService.signin(user).subscribe((data) => {
-                localStorage.setItem('tokenTooling', data.token);
-            });
-            // this.router.navigate(['pages/dashboard']);
+            // TODO : change tenandId (123456)
+            this.errorMessage = '';
+            const user = new UserLogin(values.email, values.password, '123456');
+            this.authService
+                .signin(user)
+                .subscribe(data => {
+                    localStorage.setItem('tokenTooling', data.token);
+                    this.router.navigate(['/cra'])
+                }, error => {
+                    if (error.error === 'INVALID_CREDENTIALS') {
+                        this.errorMessage = 'L \' email ou le mot de passe sont incorrects';
+                    } else {
+                        this.errorMessage = error.message
+                    }
+                });
         }
     }
 }

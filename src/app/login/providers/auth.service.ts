@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import {Http, RequestOptions, Headers, Response} from '@angular/http';
+import { environment } from '../../../environments/environment';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
-import { User } from '../models/user';
+import { UserLogin } from '../models/userLogin';
 
 @Injectable()
 export class AuthService {
 
-    server = 'http://10.162.128.58:8080';
-    constructor(private _http: Http) {}
+    private static USERS_PATH = '/users';
+    private static AUTHENTICATE_PATH = AuthService.USERS_PATH + '/authenticate';
 
-    signin(user: User) {
-        const body = JSON.stringify(user);
-        const headers = new Headers({'Content-Type': 'application/json'});
-        const options = new RequestOptions({ headers: headers });
-        return this._http.post(this.server + '/users/authenticate', body, options)
+    private server: string;
+    private headers: Headers;
+    private options: RequestOptions;
+    private authenticatePath: string;
+
+    constructor(private http: Http) {
+        this.server = environment.hostServer;
+        this.headers = new Headers({'Content-Type': 'application/json'});
+        this.options = new RequestOptions({ headers: this.headers });
+        this.authenticatePath = this.server + AuthService.AUTHENTICATE_PATH;
+    }
+
+    signin(user: UserLogin) {
+        return this.http
+            .post(this.authenticatePath, JSON.stringify(user), this.options)
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
-
     }
 
     isLoggedIn() {

@@ -1,0 +1,30 @@
+<div class="login-container">
+    <div class="col-xl-4 col-md-3 col-1"></div>
+    <div class="col-xl-4 col-md-6 col-10">
+        <div class="card">
+            <div class="card-block text-center">
+                <h2 class="card-title">Se connecter à Tooling</h2>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class=" text-left">
+                    <div class="form-group">
+                        <input [formControl]="email" class="form-control checking-field" placeholder="Email" type="text">
+                        <span class="help-block text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('required')">L'email est nécessaire</span>
+                        <span class="help-block text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('invalidEmail')">L'email est invalide</span>
+                    </div>
+                    <div class="form-group">
+                        <input [formControl]="password" class="form-control checking-field" placeholder="Mot de passe" type="password">
+                        <span class="help-block text-danger" *ngIf="form.get('password').touched && form.get('password').hasError('required')">Le mot de passe est nécessaire</span>
+                    </div>
+                    <div class="form-group">
+                        <button [disabled]="!form.valid" class="btn btn-main btn-block" type="submit">Se connecter</button>
+                    </div>
+                    <div *ngIf="errorMessage">
+                        <p class="alert-danger text-center">
+                            {{errorMessage}}
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
