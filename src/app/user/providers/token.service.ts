@@ -13,9 +13,19 @@ export class TokenService {
         this.decodeToken();
     }
 
+    public getToken(): string {
+        return localStorage.getItem(TokenService.TOKEN_NAME);
+    }
+
     public decodeToken() {
-        const token = localStorage.getItem(TokenService.TOKEN_NAME);
+        const token = this.getToken();
         const decodedToken = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split('.')[1]));
-        this.user = new User(decodedToken.mail, decodedToken.fnm, decodedToken.lnm, decodedToken.grp, decodedToken.loc);
+        this.user = {
+            email: decodedToken.mail,
+            firstName: decodedToken.fnm,
+            lastName: decodedToken.lnm,
+            groups: decodedToken.grp,
+            locale: decodedToken.loc
+        };
     }
 }
