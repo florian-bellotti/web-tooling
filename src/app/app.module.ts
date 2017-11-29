@@ -16,6 +16,9 @@ import {AuthService} from './login/providers/auth.service';
 import {AuthGuard} from "./login/providers/auth-guard.service";
 import {AppConfig} from "./app.config";
 
+import {HeaderService} from './user/providers/header.service'
+import {TokenService} from './user/providers/token.service';
+
 @NgModule({
   declarations: [
       AppComponent,
@@ -32,7 +35,7 @@ import {AppConfig} from "./app.config";
       HttpModule,
       routing
   ],
-  providers: [AuthService, AuthGuard, HttpModule, AppConfig],
+  providers: [AuthService, AuthGuard, HttpModule, AppConfig, HeaderService, TokenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

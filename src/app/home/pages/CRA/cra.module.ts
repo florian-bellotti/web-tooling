@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CraComponent } from './cra.component';
 import { DirectivesModule } from '../../../common/directives/directives.module';
+import {CraService} from './providers/cra.service'
 
 export const routes = [
   { path: '', component: CraComponent, pathMatch: 'full' }
@@ -18,6 +19,7 @@ export const routes = [
   ],
   declarations: [
     CraComponent
-  ]
+  ],
+    providers: [CraService]
 })
 export class CraModule { }

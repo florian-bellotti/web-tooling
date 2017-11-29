@@ -1,6 +1,7 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AppConfig} from '../../../app.config';
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
+import {CraService} from './providers/cra.service';
 
 @Component({
   selector: 'app-tooling-cra',
@@ -16,9 +17,10 @@ export class CraComponent {
     dragOptions: Object = { zIndex: 999, revert: true, revertDuration: 0 };
     event: any = {};
     createEvent: any;
+    activities: any;
 
 
-constructor(private appConfig: AppConfig) {
+constructor(private appConfig: AppConfig, private craService: CraService) {
         this.config = this.appConfig.config;
         this.configFn = this.appConfig;
 
@@ -162,15 +164,23 @@ constructor(private appConfig: AppConfig) {
                 }
             }
         };
+
+        this.initCalendar();
     };
 
     addEvent(event): void {
         this.calendarOptions.events.push(event);
     };
 
-    ngOnInit(): void {
+    initCalendar(): void {
+        this.craService
+            .getAllActivities()
+            .subscribe(data => {
+                console.log(data)
+            }, error => {
+                console.log(error)
+            });
         this.$calendar = jQuery('#calendar');
-        console.log(this.$calendar);
         this.$calendar.fullCalendar(this.calendarOptions);
         jQuery('.draggable').draggable(this.dragOptions);
 

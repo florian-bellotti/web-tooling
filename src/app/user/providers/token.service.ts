@@ -21,6 +21,7 @@ export class TokenService {
         const token = this.getToken();
         const decodedToken = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split('.')[1]));
         this.user = {
+            id: decodedToken.usr,
             email: decodedToken.mail,
             firstName: decodedToken.fnm,
             lastName: decodedToken.lnm,
