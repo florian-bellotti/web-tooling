@@ -14,6 +14,7 @@ import { DirectivesModule } from './common/directives/directives.module';
 import {LoginModule} from './login/login.module';
 import {AuthService} from './login/providers/auth.service';
 import {AuthGuard} from "./login/providers/auth-guard.service";
+import {AppConfig} from "./app.config";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import {AuthGuard} from "./login/providers/auth-guard.service";
       HttpModule,
       routing
   ],
-  providers: [AuthService, AuthGuard, HttpModule],
+  providers: [AuthService, AuthGuard, HttpModule, AppConfig],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

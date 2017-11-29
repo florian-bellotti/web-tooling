@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {AppConfig} from '../../../app.config';
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
 
 @Component({
@@ -16,14 +17,18 @@ export class CraComponent {
     event: any = {};
     createEvent: any;
 
-    constructor() {
-console.log('test')
+
+constructor(private appConfig: AppConfig) {
+        this.config = this.appConfig.config;
+        this.configFn = this.appConfig;
+
         let date = new Date();
         let d = date.getDate();
         let m = date.getMonth();
         let y = date.getFullYear();
 
         this.calendarOptions = {
+            lang: 'fr',
             header: {
                 left: 'today prev,next',
                 center: 'title',
@@ -150,7 +155,7 @@ console.log('test')
 
             },
             dayRender: function (date, cell) { 
-                let today = new Date().toDateString(); 
+                let today = new Date().toDateString();
                 let compareDate = date.toDate().toDateString(); 
                 if (today == compareDate) {
                     cell.css("background-color", "#ccc");
@@ -165,6 +170,7 @@ console.log('test')
 
     ngOnInit(): void {
         this.$calendar = jQuery('#calendar');
+        console.log(this.$calendar);
         this.$calendar.fullCalendar(this.calendarOptions);
         jQuery('.draggable').draggable(this.dragOptions);
 
