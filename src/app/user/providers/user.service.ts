@@ -11,13 +11,8 @@ export class UserService {
     private static USERS_PATH = '/users';
 
     private server: string;
-    private headers: Headers;
-    private options: RequestOptions;
 
     constructor(private http: Http, private headerService: HeaderService) {
-        this.server = environment.hostServer;
-        this.headers = new Headers({'Content-Type': 'application/json'});
-        this.options = new RequestOptions({ headers: this.headers });
         this.server = environment.hostServer;
     }
 

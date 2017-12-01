@@ -1,14 +1,24 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AppConfig} from '../../../app.config';
+// Vendors
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
-import {CraService} from './providers/cra.service';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
+// Services
+import {ActivityService} from './providers/activity.service';
+import {AppConfig} from '../../../app.config';
+import {ProjectService} from './providers/project.service';
+import {Project} from './models/project';
+import {TokenService} from '../../../user/providers/token.service';
+import * as moment from 'moment';
+import {fr} from 'moment/locale/fr'
+
 
 @Component({
   selector: 'app-tooling-cra',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './cra.component.html'
 })
-export class CraComponent {
+export class CraComponent implements OnInit {
     public config: any;
     public configFn: any;
 
@@ -17,105 +27,127 @@ export class CraComponent {
     dragOptions: Object = { zIndex: 999, revert: true, revertDuration: 0 };
     event: any = {};
     createEvent: any;
-    activities: any;
+    removeEvent: any;
+    updateEvent: any;
+    eventForm: FormGroup;
+    timezoneOffset: number;
 
+    private projects: Array<Project> = [];
 
-constructor(private appConfig: AppConfig, private craService: CraService) {
+    constructor(private fb: FormBuilder, private appConfig: AppConfig, private activityService: ActivityService,
+                private projectService: ProjectService, private tokenService: TokenService) {
         this.config = this.appConfig.config;
         this.configFn = this.appConfig;
+        this.calendarOptions = this.initCalendarOptions();
+        this.timezoneOffset = new Date().getTimezoneOffset();
+        this.eventForm = this.fb.group({
+            'project' : ['', Validators.required],
+            'description': ['']
+        });
 
-        let date = new Date();
-        let d = date.getDate();
-        let m = date.getMonth();
-        let y = date.getFullYear();
+    };
 
-        this.calendarOptions = {
+    renderEvent(event): void {
+        this.$calendar.fullCalendar('renderEvent', event, true);
+    };
+
+    ngOnInit(): void {
+        this.$calendar = jQuery('#calendar');
+        this.$calendar.fullCalendar(this.calendarOptions);
+        this.getProjects();
+        this.getActivities();
+
+
+        jQuery('#projects-draggable').bind('DOMNodeInserted', function() {
+            jQuery('.draggable').draggable({ zIndex: 999, revert: true, revertDuration: 0 });
+        });
+    }
+
+    private getProjects() {
+        this.projectService
+            .getAllProjects()
+            .subscribe(projects => {
+                this.projects = projects;
+            }, error => {
+               console.log(error)
+            });
+    }
+
+    private getActivities() {
+        this.activityService
+            .getAllActivities()
+            .subscribe(activities => {
+                activities
+                    .map(activity => {
+                        this.renderEvent(this.mapActivityToEvent(activity));
+                    })
+            }, error => {
+                console.log(error)
+            });
+    }
+
+    private createActivities(newEvent) {
+        this.activityService
+            .create(this.mapEventToActivity(newEvent))
+            .subscribe(activity => {
+                this.renderEvent(this.mapActivityToEvent(activity));
+            }, error => {
+                console.log(error);
+            });
+    }
+
+    private mapEventToActivity(event) {
+        const start = moment(event.start).add(this.timezoneOffset, 'm').unix();
+        const end = moment(event.end).add(this.timezoneOffset, 'm').unix();
+        return {
+            id: event.id,
+            userId: this.tokenService.user.id,
+            code: event.title,
+            startDate: start,
+            endDate: end,
+            description: event.description
+        };
+    }
+
+    private mapActivityToEvent(activity) {
+        return {
+            id: activity.id,
+            title: activity.code,
+            start: new Date(activity.startDate * 1000),
+            end: new Date(activity.endDate * 1000),
+            backgroundColor: this.config.colors.success,
+            textColor: this.config.colors.default,
+            description: activity.description
+        }
+    }
+
+    private initCalendarOptions() {
+        return {
             lang: 'fr',
             header: {
-                left: 'today prev,next',
+                left: '',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay,listMonth'
+                right: 'prev,next today'
             },
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: new Date(y, m, 1),
-                    backgroundColor: this.config.colors.primary,
-                    textColor: this.config.colors.default,
-                    description: 'Will be busy throughout the whole day'
-                },
-                {
-                    title: 'Long Event',
-                    start: new Date(y, m, d + 5),
-                    end: new Date(y, m, d + 7),
-                    description: 'This conference should be worse visiting'
-                },
-                {
-                    id: 999,
-                    title: 'Blah Blah Car',
-                    start: new Date(y, m, d - 3, 16, 0),
-                    allDay: false,
-                    description: 'Agree with this guy on arrival time'
-                },
-                {
-                    id: 1000,
-                    title: 'Buy this template',
-                    start: new Date(y, m, d + 3, 12, 0),
-                    allDay: false,
-                    backgroundColor: this.config.colors.warning,
-                    textColor: this.config.colors.default,
-                    description: 'Make sure everything is consistent first'
-                },
-                {
-                    title: 'Got to school',
-                    start: new Date(y, m, d + 16, 12, 0),
-                    end: new Date(y, m, d + 16, 13, 0),
-                    backgroundColor:  this.config.colors.danger,
-                    textColor: this.config.colors.default,
-                    description: 'Time to go back'
-                },
-                {
-                    title: 'Study some Node',
-                    start: new Date(y, m, d + 18, 12, 0),
-                    end: new Date(y, m, d + 18, 13, 0),
-                    backgroundColor: this.config.colors.success,
-                    textColor: this.config.colors.default,
-                    description: 'Node.js is a platform built ' +
-                    'on Chrome\'s JavaScript runtime for easily' +
-                    ' building fast, scalable network applications.' +
-                    ' Node.js uses an event-driven, non-blocking' +
-                    ' I/O model that makes it lightweight and' +
-                    ' efficient, perfect for data-intensive real-time' +
-                    ' applications that run across distributed devices.'
-                },
-                {
-                    title: 'Azimuth link',
-                    start: new Date(y, m, 28),
-                    end: new Date(y, m, 29),
-                    url: 'http://themeseason.com/',
-                    backgroundColor: this.config.colors.info,
-                    textColor: this.config.colors.default,
-                    description: this.config.title
-                }
-            ],
+            events: [],
+            defaultView: 'agendaWeek',
             eventColor: this.config.colors.info,
             selectable: true,
             selectHelper: true,
-            select: (start, end, allDay): void => {               
+            editable: true,
+            droppable: true,
+            select: (start, end): void => {
                 this.createEvent = () => {
-                    let title = this.event.title;
+                    const title = this.event.title;
                     if (title) {
-                        this.$calendar.fullCalendar('renderEvent',
-                        {
+                        const newEvent = {
                             title: title,
                             start: start,
                             end: end,
-                            allDay: allDay,
                             backgroundColor: this.config.colors.success,
                             textColor: this.config.colors.default
-                        },
-                        true // make the event "stick"
-                        );
+                        };
+                        this.createActivities(newEvent);
                     }
                     this.$calendar.fullCalendar('unselect');
                     jQuery('#create-event-modal').modal('hide');
@@ -123,67 +155,41 @@ constructor(private appConfig: AppConfig, private craService: CraService) {
 
                 jQuery('#create-event-modal').modal('show');
             },
+            eventDrop: (event): void => {
+                this.activityService.update(this.mapEventToActivity(event)).subscribe();
+            },
+            eventResize: (event): void => {
+                this.activityService.update(this.mapEventToActivity(event)).subscribe();
+            },
             eventClick: (event): void => {
                 this.event = event;
+                this.removeEvent = () => {
+                    this.activityService.remove(this.event.id).subscribe();
+                    this.$calendar.fullCalendar('removeEvents', this.event._id);
+                };
+                this.updateEvent = () => {
+                    this.activityService.update(this.mapEventToActivity(this.event)).subscribe();
+                    this.renderEvent(this.event);
+                };
                 jQuery('#show-event-modal').modal('show');
             },
-            editable: true,
-            droppable: true,
-
-            drop: (dateItem, event): void => { // this function is called when something is dropped
-                // retrieve the dropped element's stored Event Object
-                let originalEventObject = {
-                    // use the element's text as the event title
-                    title: jQuery.trim(jQuery(event.target).text())
+            drop: (dateItem, event): void => {
+                const newEvent = {
+                    title: jQuery.trim(jQuery(event.target)[0].id),
+                    start: moment(dateItem),
+                    end: moment(dateItem).add(2, 'hours'),
+                    backgroundColor: this.config.colors.success,
+                    textColor: this.config.colors.default
                 };
-
-                // we need to copy it, so that multiple events don't have a reference to the same object
-                let copiedEventObject = jQuery.extend({}, originalEventObject);
-
-                // assign it the date that was reported
-                copiedEventObject.start = dateItem;
-                copiedEventObject.allDay = !dateItem.hasTime();
-
-                let $categoryClass = jQuery(event.target).data('event-class');
-                if ($categoryClass) { copiedEventObject.className = [$categoryClass]; }
-
-                // render the event on the calendar
-                // the last `true` argument determines if
-                // the event 'sticks'
-                // http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                this.$calendar.fullCalendar('renderEvent', copiedEventObject, true);
-
-                jQuery(event.target).remove();
-
+                this.createActivities(newEvent);
             },
-            dayRender: function (date, cell) { 
-                let today = new Date().toDateString();
-                let compareDate = date.toDate().toDateString(); 
-                if (today == compareDate) {
-                    cell.css("background-color", "#ccc");
+            dayRender: function (date, cell) {
+                const today = new Date().toDateString();
+                const compareDate = date.toDate().toDateString();
+                if (today === compareDate) {
+                    cell.css('background-color', '#ccc');
                 }
             }
         };
-
-        this.initCalendar();
-    };
-
-    addEvent(event): void {
-        this.calendarOptions.events.push(event);
-    };
-
-    initCalendar(): void {
-        this.craService
-            .getAllActivities()
-            .subscribe(data => {
-                console.log(data)
-            }, error => {
-                console.log(error)
-            });
-        this.$calendar = jQuery('#calendar');
-        this.$calendar.fullCalendar(this.calendarOptions);
-        jQuery('.draggable').draggable(this.dragOptions);
-
     }
-
 }

@@ -8,24 +8,24 @@ export class HeaderService {
 
     constructor(private tokenService: TokenService) {}
 
-    getHeaderWitContentType(): Headers {
+    private getHeaderWitContentType(): Headers {
         return new Headers({
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + this.tokenService.getToken()
         });
     }
 
-    getOptionWithContentType(): RequestOptions {
-        return new RequestOptions({ headers: this.getHeaderWitContentType() });
-    }
-
-    getHeaderWitoutContentType(): Headers {
+    private getHeaderWitoutContentType(): Headers {
         return new Headers({
             'Authorization': 'Bearer ' + this.tokenService.getToken()
         });
     }
 
-    getOptionWithoutContentType(): RequestOptions {
+    public getOptionWithContentType(): RequestOptions {
+        return new RequestOptions({ headers: this.getHeaderWitContentType() });
+    }
+
+    public getOptionWithoutContentType(): RequestOptions {
         return new RequestOptions({ headers: this.getHeaderWitoutContentType() });
     }
 }

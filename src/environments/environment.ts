@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  hostServer: 'http://localhost:8080'
+  hostServer: 'http://tooling/api'
 };

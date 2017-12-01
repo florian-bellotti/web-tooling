@@ -13,8 +13,8 @@ import { BackTopComponent } from './common/components/back-top/back-top.componen
 import { DirectivesModule } from './common/directives/directives.module';
 import {LoginModule} from './login/login.module';
 import {AuthService} from './login/providers/auth.service';
-import {AuthGuard} from "./login/providers/auth-guard.service";
-import {AppConfig} from "./app.config";
+import {AuthGuard} from './login/providers/auth-guard.service';
+import {AppConfig} from './app.config';
 
 import {HeaderService} from './user/providers/header.service'
 import {TokenService} from './user/providers/token.service';
