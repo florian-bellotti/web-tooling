@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CraComponent } from './cra.component';
 import { DirectivesModule } from '../../../common/directives/directives.module';
-import {ProjectService} from './providers/project.service';
+import {ProjectService} from '../project/providers/project.service';
 import {ActivityService} from './providers/activity.service';
 
 export const routes = [

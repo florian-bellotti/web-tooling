@@ -15,9 +15,9 @@ export class ActivityService {
         this.server = environment.hostServer;
     }
 
-    getAllActivities() {
+    getActivitiesByUser(userId) {
         return this.http
-            .get(this.server + ActivityService.PATH,
+            .get(this.server + ActivityService.PATH + '?userId=' + userId,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))

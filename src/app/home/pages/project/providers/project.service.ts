@@ -23,6 +23,14 @@ export class ProjectService {
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
+    getActiveProjects() {
+        return this.http
+            .get(this.server + ProjectService.PATH + '?status=ACTIVE',
+                this.headerService.getOptionWithoutContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
     create(project) {
         return this.http
             .post(this.server + ProjectService.PATH, project,
@@ -35,6 +43,14 @@ export class ProjectService {
         return this.http
             .put(this.server + ProjectService.PATH, project,
                 this.headerService.getOptionWithContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
+    remove(code) {
+        return this.http
+            .delete(this.server + ProjectService.PATH + '/' + code,
+                this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }

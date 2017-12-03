@@ -6,8 +6,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 // Services
 import {ActivityService} from './providers/activity.service';
 import {AppConfig} from '../../../app.config';
-import {ProjectService} from './providers/project.service';
-import {Project} from './models/project';
+import {ProjectService} from '../project/providers/project.service';
+import {Project} from '../project/models/project';
 import {TokenService} from '../../../user/providers/token.service';
 import * as moment from 'moment';
 import {fr} from 'moment/locale/fr'
@@ -32,7 +32,7 @@ export class CraComponent implements OnInit {
     eventForm: FormGroup;
     timezoneOffset: number;
 
-    private projects: Array<Project> = [];
+    projects: Array<Project> = [];
 
     constructor(private fb: FormBuilder, private appConfig: AppConfig, private activityService: ActivityService,
                 private projectService: ProjectService, private tokenService: TokenService) {
@@ -55,8 +55,6 @@ export class CraComponent implements OnInit {
         this.$calendar = jQuery('#calendar');
         this.$calendar.fullCalendar(this.calendarOptions);
         this.getProjects();
-        this.getActivities();
-
 
         jQuery('#projects-draggable').bind('DOMNodeInserted', function() {
             jQuery('.draggable').draggable({ zIndex: 999, revert: true, revertDuration: 0 });
@@ -68,6 +66,7 @@ export class CraComponent implements OnInit {
             .getAllProjects()
             .subscribe(projects => {
                 this.projects = projects;
+                this.getActivities();
             }, error => {
                console.log(error)
             });
@@ -75,7 +74,7 @@ export class CraComponent implements OnInit {
 
     private getActivities() {
         this.activityService
-            .getAllActivities()
+            .getActivitiesByUser(this.tokenService.user.id)
             .subscribe(activities => {
                 activities
                     .map(activity => {
@@ -102,7 +101,7 @@ export class CraComponent implements OnInit {
         return {
             id: event.id,
             userId: this.tokenService.user.id,
-            code: event.title,
+            code: event.code,
             startDate: start,
             endDate: end,
             description: event.description
@@ -110,12 +109,21 @@ export class CraComponent implements OnInit {
     }
 
     private mapActivityToEvent(activity) {
+        const index = this.projects.map(project => project.code).indexOf(activity.code);
+        let color;
+        if (index === -1) {
+            color = this.config.colors.success;
+        } else {
+            color = (this.projects[index].color === undefined) ? this.config.colors.success : this.projects[index].color;
+        }
+
         return {
             id: activity.id,
+            code: activity.code,
             title: activity.code,
             start: new Date(activity.startDate * 1000),
             end: new Date(activity.endDate * 1000),
-            backgroundColor: this.config.colors.success,
+            backgroundColor: color,
             textColor: this.config.colors.default,
             description: activity.description
         }
@@ -130,6 +138,7 @@ export class CraComponent implements OnInit {
                 right: 'prev,next today'
             },
             events: [],
+            allDaySlot: false,
             defaultView: 'agendaWeek',
             eventColor: this.config.colors.info,
             selectable: true,
@@ -141,6 +150,7 @@ export class CraComponent implements OnInit {
                     const title = this.event.title;
                     if (title) {
                         const newEvent = {
+                            code: title,
                             title: title,
                             start: start,
                             end: end,
@@ -175,6 +185,7 @@ export class CraComponent implements OnInit {
             },
             drop: (dateItem, event): void => {
                 const newEvent = {
+                    code: jQuery.trim(jQuery(event.target)[0].id),
                     title: jQuery.trim(jQuery(event.target)[0].id),
                     start: moment(dateItem),
                     end: moment(dateItem).add(2, 'hours'),

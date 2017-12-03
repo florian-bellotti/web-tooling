@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <h1>Les projets</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Couleur</th>
+        <th>Statut</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input type="text" class="form-control" name="code" [(ngModel)]="newProject.code" required>
+        </td>
+        <td>
+          <input type="text" class="form-control" placeholder="name" name="name" [(ngModel)]="newProject.name" required>
+        </td>
+        <td>
+          <textarea class="form-control" placeholder="description" name="description" [(ngModel)]="newProject.description"></textarea>
+        </td>
+        <td>
+          <input type="color" class="form-control" placeholder="color" name="color"[(ngModel)]="newProject.color">
+        </td>
+        <td>
+          <select class="form-control" name="status" [(ngModel)]="newProject.status" required>
+            <option *ngFor="let s of status" [ngValue]="s">{{ s }}</option>
+          </select>
+        </td>
+        <td><button type="submit" class="btn btn-primary" (click)="createProject(newProject)">Ajouter</button></td>
+      </tr>
+      <tr *ngFor="let project of projects; let i = index">
+        <th>{{project.code}}</th>
+        <td>
+          <input type="text" class="form-control" placeholder="name" name="name-{{i}}" [(ngModel)]="project.name" required>
+        </td>
+        <td>
+          <textarea class="form-control" placeholder="description" name="description-{{i}}" [(ngModel)]="project.description"></textarea>
+        </td>
+        <td>
+          <input type="color" class="form-control" placeholder="color" name="color-{{i}}"[(ngModel)]="project.color">
+        </td>
+        <td>
+          <select class="form-control" name="status-{{i}}" [(ngModel)]="project.status" required>
+            <option *ngFor="let s of status" [ngValue]="s">{{ s }}</option>
+          </select>
+        </td>
+        <td>
+          <button (click)="removeProject(project.id)" class="btn btn-warning">Supprimer</button>
+          <button (click)="updateProject(project)" class="btn btn-primary">Modifier</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
