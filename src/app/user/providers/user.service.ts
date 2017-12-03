@@ -8,7 +8,7 @@ import {HeaderService} from './header.service';
 @Injectable()
 export class UserService {
 
-    private static USERS_PATH = '/users';
+    private static PATH = '/users';
 
     private server: string;
 
@@ -16,19 +16,43 @@ export class UserService {
         this.server = environment.hostServer;
     }
 
+    getAllUsers() {
+        return this.http
+            .get(this.server + UserService.PATH,
+                this.headerService.getOptionWithoutContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
     findCurrentUser(email: string) {
         return this.http
-            .get(this.server + UserService.USERS_PATH + '?email=' + email,
+            .get(this.server + UserService.PATH + '?email=' + email,
                 this.headerService.getOptionWithoutContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
+    create(user: User) {
+        return this.http
+            .post(this.server + UserService.PATH, user,
+                this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
     update(user: User) {
         return this.http
-            .put(this.server + UserService.USERS_PATH,
+            .put(this.server + UserService.PATH,
                 JSON.stringify(user),
                 this.headerService.getOptionWithContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
+    remove(id) {
+        return this.http
+            .delete(this.server + UserService.PATH + '/' + id,
+                this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }

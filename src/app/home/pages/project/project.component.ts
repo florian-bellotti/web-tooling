@@ -15,19 +15,11 @@ import {Project} from './models/project';
 export class ProjectComponent implements OnInit {
 
     private status: string[] = ['ACTIVE', 'INACTIVE'];
-    private projectForm: FormGroup;
     private projects: Project;
     private newProject: Project;
 
     constructor(private fb: FormBuilder, private projectService: ProjectService) {
         this.newProject = new Project();
-        this.projectForm = this.fb.group({
-            'code': ['', Validators.required],
-            'name': ['', Validators.required],
-            'description': [''],
-            'color': ['', Validators.required],
-            'status': ['', Validators.required]
-        });
     };
 
     ngOnInit(): void {
@@ -45,7 +37,6 @@ export class ProjectComponent implements OnInit {
     }
 
     private createProject() {
-        console.log(this.newProject);
         this.projectService
             .create(this.newProject)
             .subscribe(data => {

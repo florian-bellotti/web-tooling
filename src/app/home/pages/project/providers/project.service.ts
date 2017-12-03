@@ -47,9 +47,9 @@ export class ProjectService {
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    remove(code) {
+    remove(id) {
         return this.http
-            .delete(this.server + ProjectService.PATH + '/' + code,
+            .delete(this.server + ProjectService.PATH + '/' + id,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
