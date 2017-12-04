@@ -90,6 +90,7 @@ export class UserComponent {
                 .subscribe(data => {
                     this.findCurrentUser();
                     this.changeShowForm();
+                    this.tokenService.refresh().subscribe();
                     // TODO: Add sucessMessage in toast => 'Modifications enregistrées avec succés.'
                 }, error => {
                     console.log(error)
