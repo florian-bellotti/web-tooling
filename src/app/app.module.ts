@@ -18,6 +18,8 @@ import {AppConfig} from './app.config';
 
 import {HeaderService} from './user/providers/header.service'
 import {TokenService} from './user/providers/token.service';
+import {MenuComponent} from './common/components/menu/menu.component';
+import {AppState} from "./app.state";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import {TokenService} from './user/providers/token.service';
       NavbarComponent,
       PagesComponent,
       MessagesComponent,
-      BackTopComponent
+      BackTopComponent,
+      MenuComponent
   ],
   imports: [
       DirectivesModule,
@@ -35,7 +38,7 @@ import {TokenService} from './user/providers/token.service';
       HttpModule,
       routing
   ],
-  providers: [AuthService, AuthGuard, HttpModule, AppConfig, HeaderService, TokenService],
+  providers: [AuthService, AuthGuard, HttpModule, AppConfig, AppState, HeaderService, TokenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
