@@ -36,8 +36,6 @@ export class UsersComponent implements OnInit {
     }
 
     private createUser() {
-       // this.newUser.active = true;
-       // this.newUser.locale = 'fr_FR';
         this.userService
             .create(this.newUser)
             .subscribe(data => {

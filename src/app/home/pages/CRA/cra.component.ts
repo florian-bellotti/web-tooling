@@ -87,7 +87,7 @@ export class CraComponent implements OnInit {
 
     private createActivities(newEvent) {
         this.activityService
-            .create(this.mapEventToActivity(newEvent))
+            .create(this.mapEventToActivity(newEvent, true))
             .subscribe(activity => {
                 this.renderEvent(this.mapActivityToEvent(activity));
             }, error => {
@@ -95,9 +95,18 @@ export class CraComponent implements OnInit {
             });
     }
 
-    private mapEventToActivity(event) {
-        const start = moment(event.start).add(this.timezoneOffset, 'm').unix();
-        const end = moment(event.end).add(this.timezoneOffset, 'm').unix();
+    private mapEventToActivity(event, addTimezoneOffset) {
+        let start;
+        let end;
+        if (addTimezoneOffset) {
+            start = moment(event.start).add(this.timezoneOffset, 'm').unix();
+            end = moment(event.end).add(this.timezoneOffset, 'm').unix();
+        } else {
+            start = moment(event.start).unix();
+            end = moment(event.end).unix();
+        }
+
+        console.log(event);
         return {
             id: event.id,
             userId: this.tokenService.user.id,
@@ -166,10 +175,10 @@ export class CraComponent implements OnInit {
                 jQuery('#create-event-modal').modal('show');
             },
             eventDrop: (event): void => {
-                this.activityService.update(this.mapEventToActivity(event)).subscribe();
+                this.activityService.update(this.mapEventToActivity(event, true)).subscribe();
             },
             eventResize: (event): void => {
-                this.activityService.update(this.mapEventToActivity(event)).subscribe();
+                this.activityService.update(this.mapEventToActivity(event, true)).subscribe();
             },
             eventClick: (event): void => {
                 this.event = event;
@@ -178,8 +187,13 @@ export class CraComponent implements OnInit {
                     this.$calendar.fullCalendar('removeEvents', this.event._id);
                 };
                 this.updateEvent = () => {
-                    this.activityService.update(this.mapEventToActivity(this.event)).subscribe();
-                    this.renderEvent(this.event);
+                    const activity = this.mapEventToActivity(this.event, false)
+                    this.activityService
+                        .update(activity)
+                        .subscribe(data => {
+                            this.$calendar.fullCalendar('removeEvents', this.event._id);
+                            this.renderEvent(this.mapActivityToEvent(activity));
+                        });
                 };
                 jQuery('#show-event-modal').modal('show');
             },

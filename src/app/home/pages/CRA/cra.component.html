@@ -37,7 +37,7 @@
                                             <div class="form-group row">
                                                 <label for="project" class="col-2 col-form-label">Projet</label>
                                                 <div class="col-10">
-                                                    <select class="form-control" id="project" formControlName="project" [(ngModel)]="event.title">
+                                                    <select class="form-control" id="project" formControlName="project" [(ngModel)]="event.code">
                                                         <option *ngFor="let project of projects" [value]="project.code" [attr.selected]="event.title===project.code">{{project.name}}</option>
                                                     </select>
                                                 </div>
