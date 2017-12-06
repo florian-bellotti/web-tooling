@@ -7,8 +7,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
   <div class="container-fluid">
       <div class="row">
           <az-menu></az-menu>
-          <!--<az-sidebar></az-sidebar>-->
-          <div class="main-wrapper"  [ngClass]="{'menu-collapsed': isMenuCollapsed}">
+          <!--<az-sidebar></az-sidebar>
+        <div class="main-wrapper"  [ngClass]="{'menu-collapsed': isMenuCollapsed}">-->
+          <div class=""  [ngClass]="{'menu-collapsed': isMenuCollapsed}">
               <div class="az-overlay" *ngIf="!isMenuCollapsed" (click)="hideMenu()"></div>
 
               <div class="main">
@@ -22,7 +23,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 
               <az-back-top position="200"></az-back-top>
-
           </div>
       </div>
   </div>

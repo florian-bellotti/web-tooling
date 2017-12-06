@@ -32,6 +32,8 @@ export class CraComponent implements OnInit {
     eventForm: FormGroup;
     timezoneOffset: number;
 
+    private lastProjectCode: string;
+
     projects: Array<Project> = [];
 
     constructor(private fb: FormBuilder, private appConfig: AppConfig, private activityService: ActivityService,
@@ -53,7 +55,6 @@ export class CraComponent implements OnInit {
 
     ngOnInit(): void {
         this.$calendar = jQuery('#calendar');
-        this.$calendar.fullCalendar(this.calendarOptions);
         this.getProjects();
 
         jQuery('#projects-draggable').bind('DOMNodeInserted', function() {
@@ -66,15 +67,20 @@ export class CraComponent implements OnInit {
             .getAllProjects()
             .subscribe(projects => {
                 this.projects = projects;
-                this.getActivities();
+                this.$calendar.fullCalendar(this.calendarOptions);
             }, error => {
-               console.log(error)
+                console.log(error)
             });
     }
 
+    public initProjectColor(project): object {
+        return {'background-color': project.color};
+    }
+
     private getActivities() {
+        const view = this.$calendar.fullCalendar('getView');
         this.activityService
-            .getActivitiesByUser(this.tokenService.user.id)
+            .getActivitiesByUserAndDate(this.tokenService.user.id, moment(view.start).unix(), moment(view.end).unix())
             .subscribe(activities => {
                 activities
                     .map(activity => {
@@ -86,6 +92,7 @@ export class CraComponent implements OnInit {
     }
 
     private createActivities(newEvent) {
+        this.lastProjectCode = newEvent.title;
         this.activityService
             .create(this.mapEventToActivity(newEvent, true))
             .subscribe(activity => {
@@ -117,8 +124,9 @@ export class CraComponent implements OnInit {
         };
     }
 
-    private mapActivityToEvent(activity) {
-        const index = this.projects.map(project => project.code).indexOf(activity.code);
+
+    private getColorFromProjectCode(code) {
+        const index = this.projects.map(project => project.code).indexOf(code);
         let color;
         if (index === -1) {
             color = this.config.colors.success;
@@ -126,6 +134,11 @@ export class CraComponent implements OnInit {
             color = (this.projects[index].color === undefined) ? this.config.colors.success : this.projects[index].color;
         }
 
+        return color;
+    }
+
+    private mapActivityToEvent(activity) {
+        const color = this.getColorFromProjectCode(activity.code);
         return {
             id: activity.id,
             code: activity.code,
@@ -155,6 +168,9 @@ export class CraComponent implements OnInit {
             editable: true,
             droppable: true,
             select: (start, end): void => {
+                this.event = {};
+                this.event.title = this.lastProjectCode;
+
                 this.createEvent = () => {
                     const title = this.event.title;
                     if (title) {
@@ -164,7 +180,8 @@ export class CraComponent implements OnInit {
                             start: start,
                             end: end,
                             backgroundColor: this.config.colors.success,
-                            textColor: this.config.colors.default
+                            textColor: this.config.colors.default,
+                            description : this.event.description
                         };
                         this.createActivities(newEvent);
                     }
@@ -198,14 +215,17 @@ export class CraComponent implements OnInit {
                 jQuery('#show-event-modal').modal('show');
             },
             drop: (dateItem, event): void => {
+                const code = jQuery.trim(jQuery(event.target)[0].id);
+                const color = this.getColorFromProjectCode(code);
                 const newEvent = {
-                    code: jQuery.trim(jQuery(event.target)[0].id),
-                    title: jQuery.trim(jQuery(event.target)[0].id),
+                    code: code,
+                    title: code,
                     start: moment(dateItem),
                     end: moment(dateItem).add(2, 'hours'),
-                    backgroundColor: this.config.colors.success,
+                    backgroundColor: color,
                     textColor: this.config.colors.default
                 };
+                console.log(newEvent);
                 this.createActivities(newEvent);
             },
             dayRender: function (date, cell) {
@@ -214,6 +234,10 @@ export class CraComponent implements OnInit {
                 if (today === compareDate) {
                     cell.css('background-color', '#ccc');
                 }
+            },
+            viewRender: (element): void => {
+                this.$calendar.fullCalendar('removeEvents');
+                this.getActivities();
             }
         };
     }

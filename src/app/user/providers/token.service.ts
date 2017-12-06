@@ -4,6 +4,7 @@ import {User} from '../models/user';
 import {Observable} from 'rxjs/Rx';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {environment} from '../../../environments/environment';
+import * as moment from 'moment';
 
 @Injectable()
 export class TokenService {
@@ -25,6 +26,9 @@ export class TokenService {
 
     public decodeToken() {
         const token = this.getToken();
+        if (token === undefined) {
+            return null;
+        }
         const decodedToken = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split('.')[1]));
         this.user = {
             id: decodedToken.usr,
@@ -34,6 +38,7 @@ export class TokenService {
             groups: decodedToken.grp,
             locale: decodedToken.loc
         };
+        return decodedToken.exp * 1000;
     }
 
     public refresh() {
@@ -48,5 +53,9 @@ export class TokenService {
                 this.decodeToken();
             })
             .catch((error: Response) => Observable.throw(error.json()))
+    }
+
+    public removeToken() {
+        localStorage.removeItem(TokenService.TOKEN_NAME);
     }
 }

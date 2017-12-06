@@ -9,7 +9,8 @@
                         <h4>Projet</h4>
                         <div id="projects-draggable">
                             <div id="{{project.code}}" *ngFor="let project of projects"
-                                 class="btn btn-success btn-block btn-sm text-left draggable text-truncate"
+                                 class="btn btn-block fc-event btn-sm text-left draggable text-truncate"
+                                 [ngStyle]="initProjectColor(project)"
                                  data-event-class="bg-primary text-white">
                                 {{project.name}}
                             </div>
@@ -64,12 +65,15 @@
                                 <div class="modal-content">
                                     <div class="modal-header modal-success d-block">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h5 class="modal-title">New Event</h5>
-                                        <p class="text-muted no-margin"> Just enter event name to create a new one </p>
+                                        <h5 class="modal-title">Nouvelle activité</h5>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <input class="form-control" [(ngModel)]="event.title" type="text" placeholder="Enter event here...">
+                                            <select class="form-control" [(ngModel)]="event.title">
+                                                <option *ngFor="let project of projects" [value]="project.code" [attr.selected]="event.title===project.code">
+                                                    {{project.name}}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
