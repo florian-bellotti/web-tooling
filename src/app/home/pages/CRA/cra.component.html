@@ -12,7 +12,7 @@
                                  class="btn btn-block fc-event btn-sm text-left draggable text-truncate"
                                  [ngStyle]="initProjectColor(project)"
                                  data-event-class="bg-primary text-white">
-                                {{project.name}}
+                                {{project.code}} - {{project.name}}
                             </div>
                         </div>
                     </div>
@@ -69,9 +69,18 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
+                                            <label for="newProject" class="col-2 col-form-label">Projet</label>
                                             <select class="form-control" [(ngModel)]="event.title">
-                                                <option *ngFor="let project of projects" [value]="project.code" [attr.selected]="event.title===project.code">
+                                                <option *ngFor="let project of projects" id="newProject" [value]="project.code" [attr.selected]="event.title===project.code">
                                                     {{project.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newType" class="col-2 col-form-label">Type</label>
+                                            <select class="form-control" [(ngModel)]="event.type">
+                                                <option *ngFor="let type of types" id="newType" [value]="type.id" [attr.selected]="event.type===type.id">
+                                                    {{type.name}}
                                                 </option>
                                             </select>
                                         </div>

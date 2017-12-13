@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {ProjectComponent} from './project.component';
 import {DirectivesModule} from '../../../common/directives/directives.module';
 import {ProjectService} from './providers/project.service';
+import {ActivityTypeService} from './providers/activityType.service';
 
 export const routes = [
     { path: '', component: ProjectComponent, pathMatch: 'full' }
@@ -22,7 +23,8 @@ export const routes = [
         ProjectComponent
     ],
     providers: [
-        ProjectService
+        ProjectService,
+        ActivityTypeService
     ]
 })
 export class ProjectModule { }

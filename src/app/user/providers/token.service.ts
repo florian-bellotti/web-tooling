@@ -26,7 +26,7 @@ export class TokenService {
 
     public decodeToken() {
         const token = this.getToken();
-        if (token === undefined) {
+        if (!token) {
             return null;
         }
         const decodedToken = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split('.')[1]));

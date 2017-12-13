@@ -2,6 +2,8 @@
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import * as moment from 'moment';
+import {fr} from 'moment/locale/fr'
 
 // Services
 import {ActivityService} from './providers/activity.service';
@@ -9,8 +11,7 @@ import {AppConfig} from '../../../app.config';
 import {ProjectService} from '../project/providers/project.service';
 import {Project} from '../project/models/project';
 import {TokenService} from '../../../user/providers/token.service';
-import * as moment from 'moment';
-import {fr} from 'moment/locale/fr'
+import {ActivityType} from '../project/models/activityType';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class CraComponent implements OnInit {
     private lastProjectCode: string;
 
     projects: Array<Project> = [];
+    types: Array<ActivityType> = [];
 
     constructor(private fb: FormBuilder, private appConfig: AppConfig, private activityService: ActivityService,
                 private projectService: ProjectService, private tokenService: TokenService) {
