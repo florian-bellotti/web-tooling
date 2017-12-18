@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 import {User} from '../models/user';
 import {Observable} from 'rxjs/Rx';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {environment} from '../../../environments/environment';
-import * as moment from 'moment';
+import {environment} from '../../../../environments/environment';
 
 @Injectable()
 export class TokenService {

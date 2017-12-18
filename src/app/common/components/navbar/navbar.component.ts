@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppState } from '../../../app.state';
 import { SidebarService } from '../sidebar/sidebar.service';
-import {TokenService} from '../../../user/providers/token.service';
+import {TokenService} from '../../../core/user/providers/token.service';
 
 @Component({
   selector: 'az-navbar',

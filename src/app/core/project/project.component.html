@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="row">
   <h1>Les projets</h1>
   <table class="table">
     <thead>
@@ -80,8 +80,8 @@
         <input type="text" class="form-control" placeholder="name" name="name-{{i}}" [(ngModel)]="activityType.name" required>
       </td>
       <td>
-        <button (click)="removeProject(activityType.id)" class="btn btn-warning">Supprimer</button>
-        <button (click)="updateProject(activityType)" class="btn btn-primary">Modifier</button>
+        <button (click)="removeActivityTypes(activityType.id)" class="btn btn-warning">Supprimer</button>
+        <button (click)="updateActivityTypes(activityType)" class="btn btn-primary">Modifier</button>
       </td>
     </tr>
     </tbody>

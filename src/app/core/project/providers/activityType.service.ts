@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
-import {HeaderService} from '../../../../user/providers/header.service';
+import {HeaderService} from '../../user/providers/header.service';
 
 @Injectable()
-export class ActivityService {
+export class ActivityTypeService {
 
-    private static PATH = '/activities';
+    private static PATH = '/activities/types';
 
     private server: string;
 
@@ -15,25 +15,25 @@ export class ActivityService {
         this.server = environment.hostServer;
     }
 
-    getActivitiesByUserAndDate(userId, start, end) {
+    getAll() {
         return this.http
-            .get(this.server + ActivityService.PATH + '?userId=' + userId + '&start=' + start + '&end=' + end,
+            .get(this.server + ActivityTypeService.PATH,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    create(activity) {
+    create(activityType) {
         return this.http
-            .post(this.server + ActivityService.PATH, activity,
+            .post(this.server + ActivityTypeService.PATH, activityType,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    update(activity) {
+    update(activityType) {
         return this.http
-            .put(this.server + ActivityService.PATH, activity,
+            .put(this.server + ActivityTypeService.PATH, activityType,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
@@ -41,7 +41,7 @@ export class ActivityService {
 
     remove(id) {
         return this.http
-            .delete(this.server + ActivityService.PATH + '/' + id,
+            .delete(this.server + ActivityTypeService.PATH + '/' + id,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))

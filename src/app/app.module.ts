@@ -1,44 +1,43 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+// vendors
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { routing } from './routing';
-
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './common/components/navbar/navbar.component';
-import { PagesComponent } from './home/pages/HomePage/HomePage';
-import { MessagesComponent } from './common/components/messages/messages.component';
-import { BackTopComponent } from './common/components/back-top/back-top.component';
-import { DirectivesModule } from './common/directives/directives.module';
-import {LoginModule} from './login/login.module';
+import {NgModule} from '@angular/core';
+// imports
+import {AppComponent} from './app.component';
 import {AuthService} from './login/providers/auth.service';
 import {AuthGuard} from './login/providers/auth-guard.service';
 import {AppConfig} from './app.config';
-
-import {HeaderService} from './user/providers/header.service'
-import {TokenService} from './user/providers/token.service';
+import {AppState} from './app.state';
+import {BackTopComponent} from './common/components/back-top/back-top.component';
+import {CoreRoutingModule} from './core/core-rooting.module';
+import {DirectivesModule} from './common/directives/directives.module';
+import {HeaderService} from './core/user/providers/header.service';
+import {LoginRoutingModule} from './login/login-rooting.module';
+import {MessagesComponent} from './common/components/messages/messages.component';
+import {TokenService} from './core/user/providers/token.service';
 import {MenuComponent} from './common/components/menu/menu.component';
-import {AppState} from "./app.state";
+import {TemplateComponent} from './core/template.component';
+import {NavbarComponent} from './common/components/navbar/navbar.component';
 
 @NgModule({
-  declarations: [
-      AppComponent,
-      NavbarComponent,
-      PagesComponent,
-      MessagesComponent,
-      BackTopComponent,
-      MenuComponent
-  ],
-  imports: [
-      DirectivesModule,
-      BrowserModule,
-      BrowserAnimationsModule,
-      LoginModule,
-      HttpModule,
-      routing
-  ],
-  providers: [AuthService, AuthGuard, HttpModule, AppConfig, AppState, HeaderService, TokenService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        TemplateComponent,
+        MessagesComponent,
+        BackTopComponent,
+        MenuComponent
+    ],
+    imports: [
+        DirectivesModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        LoginRoutingModule,
+        CoreRoutingModule,
+        HttpModule
+    ],
+    providers: [AuthService, AuthGuard, HttpModule, AppConfig, AppState, HeaderService, TokenService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

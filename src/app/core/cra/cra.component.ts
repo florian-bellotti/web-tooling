@@ -7,11 +7,12 @@ import {fr} from 'moment/locale/fr'
 
 // Services
 import {ActivityService} from './providers/activity.service';
-import {AppConfig} from '../../../app.config';
+import {AppConfig} from '../../app.config';
 import {ProjectService} from '../project/providers/project.service';
 import {Project} from '../project/models/project';
-import {TokenService} from '../../../user/providers/token.service';
+import {TokenService} from '../user/providers/token.service';
 import {ActivityType} from '../project/models/activityType';
+import {ActivityTypeService} from '../project/providers/activityType.service';
 
 
 @Component({
@@ -33,22 +34,28 @@ export class CraComponent implements OnInit {
     eventForm: FormGroup;
     timezoneOffset: number;
 
-    private lastProjectCode: string;
+    private lastProjectCode = '';
 
-    projects: Array<Project> = [];
-    types: Array<ActivityType> = [];
+    public projects: Array<Project> = [];
+    public activityTypes: Array<ActivityType> = [];
+    public newTypeCode = '';
 
-    constructor(private fb: FormBuilder, private appConfig: AppConfig, private activityService: ActivityService,
-                private projectService: ProjectService, private tokenService: TokenService) {
+    public createDropEvent: any;
+
+    constructor(private fb: FormBuilder, private appConfig: AppConfig,
+                private activityService: ActivityService,
+                private activityTypeService: ActivityTypeService,
+                private projectService: ProjectService,
+                private tokenService: TokenService) {
         this.config = this.appConfig.config;
         this.configFn = this.appConfig;
         this.calendarOptions = this.initCalendarOptions();
         this.timezoneOffset = new Date().getTimezoneOffset();
         this.eventForm = this.fb.group({
             'project' : ['', Validators.required],
+            'type' : ['', Validators.required],
             'description': ['']
         });
-
     };
 
     renderEvent(event): void {
@@ -58,10 +65,22 @@ export class CraComponent implements OnInit {
     ngOnInit(): void {
         this.$calendar = jQuery('#calendar');
         this.getProjects();
+        this.getActivityTypes();
 
         jQuery('#projects-draggable').bind('DOMNodeInserted', function() {
             jQuery('.draggable').draggable({ zIndex: 999, revert: true, revertDuration: 0 });
         });
+    }
+
+    private getActivityTypes() {
+        this.activityTypeService
+            .getAll()
+            .subscribe(activityTypes => {
+                console.log(activityTypes);
+                this.activityTypes = activityTypes;
+            }, error => {
+                console.log(error)
+            });
     }
 
     private getProjects() {
@@ -119,6 +138,7 @@ export class CraComponent implements OnInit {
         return {
             id: event.id,
             userId: this.tokenService.user.id,
+            typeCode: event.typeCode,
             code: event.code,
             startDate: start,
             endDate: end,
@@ -145,6 +165,7 @@ export class CraComponent implements OnInit {
             id: activity.id,
             code: activity.code,
             title: activity.code,
+            typeCode: activity.typeCode,
             start: new Date(activity.startDate * 1000),
             end: new Date(activity.endDate * 1000),
             backgroundColor: color,
@@ -170,8 +191,10 @@ export class CraComponent implements OnInit {
             editable: true,
             droppable: true,
             select: (start, end): void => {
-                this.event = {};
-                this.event.title = this.lastProjectCode;
+                this.event = {
+                    title: this.lastProjectCode,
+                    type: this.lastProjectCode,
+                    typeCode: ''};
 
                 this.createEvent = () => {
                     const title = this.event.title;
@@ -179,6 +202,7 @@ export class CraComponent implements OnInit {
                         const newEvent = {
                             code: title,
                             title: title,
+                            typeCode : this.event.typeCode,
                             start: start,
                             end: end,
                             backgroundColor: this.config.colors.success,
@@ -217,18 +241,25 @@ export class CraComponent implements OnInit {
                 jQuery('#show-event-modal').modal('show');
             },
             drop: (dateItem, event): void => {
+                jQuery('#create-event-drop-modal').modal('show');
                 const code = jQuery.trim(jQuery(event.target)[0].id);
                 const color = this.getColorFromProjectCode(code);
-                const newEvent = {
-                    code: code,
-                    title: code,
-                    start: moment(dateItem),
-                    end: moment(dateItem).add(2, 'hours'),
-                    backgroundColor: color,
-                    textColor: this.config.colors.default
+                this.createDropEvent = () => {
+                    if (code) {
+                        const newEvent = {
+                            code: code,
+                            title: code,
+                            typeCode: this.newTypeCode,
+                            start: moment(dateItem),
+                            end: moment(dateItem).add(2, 'hours'),
+                            backgroundColor: color,
+                            textColor: this.config.colors.default
+                        };
+                        this.createActivities(newEvent);
+                    }
+                    this.$calendar.fullCalendar('unselect');
+                    jQuery('#create-event-drop-modal').modal('hide');
                 };
-                console.log(newEvent);
-                this.createActivities(newEvent);
             },
             dayRender: function (date, cell) {
                 const today = new Date().toDateString();

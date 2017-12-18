@@ -1,16 +1,15 @@
 <az-navbar></az-navbar>
 <div class="container-fluid">
     <div class="row">
-        <div class="main-wrapper"  [ngClass]="{'menu-collapsed': isMenuCollapsed}">
+        <az-menu></az-menu>
+        <div class="main-wrapper" [ngClass]="{'menu-collapsed': isMenuCollapsed}">
             <div class="az-overlay" *ngIf="!isMenuCollapsed" (click)="hideMenu()"></div>
 
             <div class="main">
                 <router-outlet></router-outlet>
             </div>
 
-
             <az-back-top position="200"></az-back-top>
-
         </div>
     </div>
 </div>

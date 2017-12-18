@@ -1,7 +1,7 @@
 export const menuItems = [
     {
         title: 'Tableau de bord',
-        routerLink: '',
+        routerLink: '/',
         icon: 'fa-home',
         selected: false,
         expanded: false,
@@ -9,7 +9,7 @@ export const menuItems = [
     },
     {
         title: 'Compte rendu d\'activité',
-        routerLink: 'cra',
+        routerLink: '/cra',
         icon: 'fa-calendar',
         selected: false,
         expanded: false,
@@ -17,7 +17,7 @@ export const menuItems = [
     },
     {
         title: 'Paramètres',
-        routerLink: 'settings',
+        routerLink: '/settings',
         icon: 'fa-cog',
         selected: false,
         expanded: false,
@@ -25,11 +25,11 @@ export const menuItems = [
         subMenu: [
             {
                 title: 'Projets',
-                routerLink: 'settings/projects'
+                routerLink: '/settings/projects'
             },
             {
                 title: 'Utilisateurs',
-                routerLink: 'settings/users'
+                routerLink: '/settings/users'
             }
         ]
     }

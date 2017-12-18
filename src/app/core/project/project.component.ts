@@ -6,8 +6,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 // Services
 import {ProjectService} from './providers/project.service';
 import {Project} from './models/project';
-import {ActivityType} from "./models/activityType";
-import {ActivityTypeService} from "./providers/activityType.service";
+import {ActivityType} from './models/activityType';
+import {ActivityTypeService} from './providers/activityType.service';
 
 @Component({
     selector: 'app-tooling-project',

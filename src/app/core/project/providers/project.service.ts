@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Http, RequestOptions, Headers, Response} from '@angular/http';
-import {environment} from '../../../environments/environment';
-import {User} from '../models/user';
+import {Http, Response} from '@angular/http';
+import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
-import {HeaderService} from './header.service';
+import {HeaderService} from '../../user/providers/header.service';
 
 @Injectable()
-export class UserService {
+export class ProjectService {
 
-    private static PATH = '/users';
+    private static PATH = '/projects';
 
     private server: string;
 
@@ -16,34 +15,33 @@ export class UserService {
         this.server = environment.hostServer;
     }
 
-    getAllUsers() {
+    getAllProjects() {
         return this.http
-            .get(this.server + UserService.PATH,
+            .get(this.server + ProjectService.PATH,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    findCurrentUser(email: string) {
+    getActiveProjects() {
         return this.http
-            .get(this.server + UserService.PATH + '?email=' + email,
+            .get(this.server + ProjectService.PATH + '?status=ACTIVE',
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    create(user: User) {
+    create(project) {
         return this.http
-            .post(this.server + UserService.PATH, user,
+            .post(this.server + ProjectService.PATH, project,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    update(user: User) {
+    update(project) {
         return this.http
-            .put(this.server + UserService.PATH,
-                JSON.stringify(user),
+            .put(this.server + ProjectService.PATH, project,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
@@ -51,7 +49,7 @@ export class UserService {
 
     remove(id) {
         return this.http
-            .delete(this.server + UserService.PATH + '/' + id,
+            .delete(this.server + ProjectService.PATH + '/' + id,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))

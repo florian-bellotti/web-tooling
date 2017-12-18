@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
-import {HeaderService} from '../../../../user/providers/header.service';
+import {HeaderService} from '../../user/providers/header.service';
 
 @Injectable()
-export class ActivityTypeService {
+export class ActivityService {
 
-    private static PATH = '/activities/types';
+    private static PATH = '/activities';
 
     private server: string;
 
@@ -15,25 +15,25 @@ export class ActivityTypeService {
         this.server = environment.hostServer;
     }
 
-    getAll() {
+    getActivitiesByUserAndDate(userId, start, end) {
         return this.http
-            .get(this.server + ActivityTypeService.PATH,
+            .get(this.server + ActivityService.PATH + '?userId=' + userId + '&start=' + start + '&end=' + end,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    create(activityType) {
+    create(activity) {
         return this.http
-            .post(this.server + ActivityTypeService.PATH, activityType,
+            .post(this.server + ActivityService.PATH, activity,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
 
-    update(activityType) {
+    update(activity) {
         return this.http
-            .put(this.server + ActivityTypeService.PATH, activityType,
+            .put(this.server + ActivityService.PATH, activity,
                 this.headerService.getOptionWithContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
@@ -41,7 +41,7 @@ export class ActivityTypeService {
 
     remove(id) {
         return this.http
-            .delete(this.server + ActivityTypeService.PATH + '/' + id,
+            .delete(this.server + ActivityService.PATH + '/' + id,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))

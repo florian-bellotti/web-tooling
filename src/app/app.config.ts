@@ -11,8 +11,8 @@ export class AppConfig {
     constructor() {
         this.sassVariables = this.getSassVariables();
         this.config = {
-            name: 'Régie Fête',
-            title: 'Régie Fête Pyrotechnie - Webapp Admin Ressources',
+            name: 'Tooling',
+            title: 'Tooling',
             version: '1.0.0',
             colors: {
                 main: this.sassVariables['main-color'],

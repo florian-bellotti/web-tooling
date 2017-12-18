@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 
 export const routes = [
-   { path: '', component: LoginComponent, pathMatch: 'full' }
+   { path: 'login', component: LoginComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -15,7 +15,9 @@ export const routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [LoginComponent]
+    declarations: [LoginComponent],
+  exports: [
+      RouterModule
+  ]
 })
-
-export class LoginModule { }
+export class LoginRoutingModule {}

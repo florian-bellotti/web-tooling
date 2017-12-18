@@ -1,11 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// vendors
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import {RouterModule} from '@angular/router';
+
+// imports
 import { CraComponent } from './cra.component';
-import { DirectivesModule } from '../../../common/directives/directives.module';
 import {ProjectService} from '../project/providers/project.service';
 import {ActivityService} from './providers/activity.service';
+import {ActivityTypeService} from '../project/providers/activityType.service';
+import {DirectivesModule} from '../../common/directives/directives.module';
 
 export const routes = [
   { path: '', component: CraComponent, pathMatch: 'full' }
@@ -23,7 +27,9 @@ export const routes = [
     CraComponent
   ],
     providers: [
-        ProjectService, ActivityService
+        ProjectService,
+        ActivityService,
+        ActivityTypeService
     ]
 })
 export class CraModule { }

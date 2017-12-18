@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
 import { UserLogin } from '../models/userLogin';
-import {TokenService} from '../../user/providers/token.service';
+import {TokenService} from '../../core/user/providers/token.service';
 
 @Injectable()
 export class AuthService {
