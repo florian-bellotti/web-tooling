@@ -46,4 +46,12 @@ export class ActivityService {
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
     }
+
+    aggregateDurations(dateInterval) {
+        return this.http
+            .post(this.server + ActivityService.PATH + '/aggregateDurations', dateInterval,
+                this.headerService.getOptionWithoutContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
 }

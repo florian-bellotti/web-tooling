@@ -37,7 +37,7 @@ export class LoginComponent {
                 .signin(user)
                 .subscribe(data => {
                     localStorage.setItem('tokenTooling', data.token);
-                    this.router.navigate(['/cra'])
+                    this.router.navigate(['/'])
                 }, error => {
                     if (error.error === 'INVALID_CREDENTIALS') {
                         this.errorMessage = 'L \' email ou le mot de passe sont incorrects';

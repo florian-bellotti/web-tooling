@@ -1,3 +1,37 @@
 <div class="row">
-  <h1>Bonjour</h1>
+  <div class="col-xl-4 col-lg-4 col-12 bottom-30">
+    <div class="card">
+      <div class="card-header text-center">
+        <span>Mes activités pendant le mois en cours</span>
+      </div>
+      <div class="card-body">
+        <div style="display: block">
+          <canvas *ngIf="activityByMonth" baseChart
+                  [labels]="activityByMonthLabels"
+                  [data]="activityByMonthData"
+                  [colors]="activityByMonthColor"
+                  [chartType]="activityByMonthType"
+                  [options]="options"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-4 col-12 bottom-30">
+    <div class="card">
+      <div class="card-header text-center">
+        <span>Mes types activités pendant le mois en cours</span>
+      </div>
+      <div class="card-body">
+        <div style="display: block">
+          <canvas *ngIf="typeActivityByMonth" baseChart
+                  [labels]="typeActivityByMonthLabels"
+                  [data]="typeActivityByMonthData"
+                  [chartType]="typeActivityByMonthType"
+                  [options]="options"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
