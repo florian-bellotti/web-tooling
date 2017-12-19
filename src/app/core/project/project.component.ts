@@ -18,7 +18,7 @@ export class ProjectComponent implements OnInit {
 
     private status: string[] = ['ACTIVE', 'INACTIVE'];
     public projects: Array<Project>  = [];
-    private newProject: Project;
+    public newProject: Project;
     public activityTypes: Array<ActivityType> = [];
     public newActivityType: ActivityType;
 
@@ -28,6 +28,11 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit(): void {
         this.newProject = new Project();
+        this.newProject.properties = new Map();
+        this.newProject.properties.set('DEV', {duration: 12});
+        this.newProject.properties.set('MAP', {duration: 12});
+        this.newProject.properties.set('MAN', {duration: 12});
+        console.log(this.newProject);
         this.newActivityType = new ActivityType();
         this.getProjects();
         this.getActivityTypes();

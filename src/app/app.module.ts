@@ -19,6 +19,7 @@ import {TokenService} from './core/user/providers/token.service';
 import {MenuComponent} from './common/components/menu/menu.component';
 import {TemplateComponent} from './core/template.component';
 import {NavbarComponent} from './common/components/navbar/navbar.component';
+import {PipesModule} from "./common/pipes/pipes.module";
 
 @NgModule({
     declarations: [
@@ -30,6 +31,7 @@ import {NavbarComponent} from './common/components/navbar/navbar.component';
         MenuComponent
     ],
     imports: [
+        PipesModule,
         DirectivesModule,
         BrowserModule,
         BrowserAnimationsModule,

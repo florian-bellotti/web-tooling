@@ -5,4 +5,5 @@ export class Project {
     status: string;
     color: string;
     description: string;
+    properties: Map<string, any>;
 }

@@ -6,6 +6,7 @@ import {ProjectComponent} from './project.component';
 import {DirectivesModule} from '../../common/directives/directives.module';
 import {ProjectService} from './providers/project.service';
 import {ActivityTypeService} from './providers/activityType.service';
+import {PipesModule} from "../../common/pipes/pipes.module";
 
 export const routes = [
     { path: '', component: ProjectComponent, pathMatch: 'full' }
@@ -17,6 +18,7 @@ export const routes = [
         FormsModule,
         ReactiveFormsModule,
         DirectivesModule,
+        PipesModule,
         RouterModule.forChild(routes)
     ],
     declarations: [

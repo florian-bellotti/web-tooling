@@ -30,6 +30,20 @@ export class HomeComponent implements OnInit {
     public typeActivityByMonthLabels: string[];
     public typeActivityByMonthData: number[];
 
+    public projectChartType = 'bar';
+    public projectChartLegend = true;
+    public projectChartLabels = ['Conception', 'Management', 'Développement', 'Recette'];
+   // public projectChartData = [];
+    public projectChartOptions = {
+        scaleShowVerticalLines: false,
+        responsive: true
+    };
+
+    public projectChartData = [
+        {data: [65, 59, 80, 81], label: 'Actuel'},
+        {data: [28, 48, 40, 19], label: 'Estimé'}
+    ];
+
     constructor(private activityService: ActivityService,
                 private projectService: ProjectService,
                 private activityTypeService: ActivityTypeService,
