@@ -15,8 +15,7 @@ const routes = [
             { path: '', loadChildren: './home/home.module#HomeModule' },
             { path: 'cra', loadChildren: './cra/cra.module#CraModule' },
             { path: 'profile', loadChildren: './user/user.module#UserModule' },
-            { path: 'settings/users', loadChildren: './users/users.module#UsersModule' },
-            { path: 'settings/projects', loadChildren: './project/project.module#ProjectModule' },
+            { path: 'users', loadChildren: './users/users.module#UsersModule' }
         ]
     }
 ];

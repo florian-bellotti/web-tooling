@@ -1,129 +1,139 @@
-<!--<div class="container-fluid">-->
-    <div class="row">
-        <div class="col">
-            <div class="card-block widget-body row">
-                <!-- Draggable Part -->
-                <div class="col-xl-3 col-lg-2 col-12">
-                    <div class="card-block">
+<div class="row">
+    <div class="col-md-12">
+        <h1>Compte rendu d'activité</h1>
+    </div>
+</div>
 
-                        <h4>Projet</h4>
-                        <div id="projects-draggable">
-                            <div id="{{project.code}}" *ngFor="let project of projects"
-                                 class="btn btn-block fc-event btn-sm text-left draggable text-truncate"
-                                 [ngStyle]="initProjectColor(project)"
-                                 data-event-class="bg-primary text-white">
-                                {{project.code}} - {{project.name}}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="calendar-container">
+                    <div class="row">
+                        <!-- Draggable Part -->
+                        <div class="col-xl-3 col-lg-2 d-none d-lg-block">
+                            <div class="card-block">
+
+                                <h4>Projets</h4>
+                                <div id="projects-draggable">
+                                    <div id="{{project.code}}" *ngFor="let project of projects"
+                                         class="btn btn-block fc-event btn-sm text-left draggable text-truncate"
+                                         [ngStyle]="initProjectColor(project)"
+                                         data-event-class="bg-primary text-white">
+                                        {{project.code}} - {{project.name}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-xl-9 col-lg-10 col-12">
-                    <!-- Calendar Part -->
-                    <div class="card-block">
-                        <div id="calendar"></div>
+                        <div class="col-xl-9 col-lg-10 col-12">
+                            <!-- Calendar Part -->
+                            <div class="card-block">
+                                <div id="calendar"></div>
 
-                        <!-- Modal on click -->
-                        <div class="modal fade" id="show-event-modal">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header modal-info">
-                                        <h5 *ngIf="event.title" class="modal-title">{{ event.title }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><i class="fa fa-calendar"></i> &nbsp; {{ event.start | date: 'EEE MMM d y hh:mm a' }}</p>
-                                        <p *ngIf="event.end"><i class="fa fa-clock-o"></i> &nbsp; {{ event.end | date: 'EEE MMM d y hh:mm a' }}</p>
-                                        <form [formGroup]="eventForm">
-                                            <div class="form-group row">
-                                                <label for="project" class="col-2 col-form-label">Projet</label>
-                                                <div class="col-10">
-                                                    <select class="form-control" id="project" formControlName="project" [(ngModel)]="event.code">
-                                                        <option *ngFor="let project of projects" [value]="project.code" [attr.selected]="event.title===project.code">{{project.name}}</option>
-                                                    </select>
-                                                </div>
+                                <!-- Modal on click -->
+                                <div class="modal fade" id="show-event-modal">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header modal-info">
+                                                <h5 *ngIf="event.title" class="modal-title">{{ event.title }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="type" class="col-2 col-form-label">Type</label>
-                                                <div class="col-10">
-                                                    <select class="form-control" [(ngModel)]="event.typeCode" id="type" formControlName="type">
-                                                        <option *ngFor="let type of activityTypes" [value]="type.code" [attr.selected]="event.typeCode===type.code">
+                                            <div class="modal-body">
+                                                <p><i class="fa fa-calendar"></i> &nbsp; {{ event.start | date: 'EEE MMM d y hh:mm a' }}</p>
+                                                <p *ngIf="event.end"><i class="fa fa-clock-o"></i> &nbsp; {{ event.end | date: 'EEE MMM d y hh:mm a' }}</p>
+                                                <form [formGroup]="eventForm">
+                                                    <div class="form-group row">
+                                                        <label for="project" class="col-12 col-form-label">Projet</label>
+                                                        <div class="col-12">
+                                                            <select class="form-control" id="project" formControlName="project" [(ngModel)]="event.code">
+                                                                <option *ngFor="let project of projects" [value]="project.code" [attr.selected]="event.title===project.code">{{project.name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="type" class="col-12 col-form-label">Type</label>
+                                                        <div class="col-12">
+                                                            <select class="form-control" [(ngModel)]="event.typeCode" id="type" formControlName="type">
+                                                                <option *ngFor="let type of activityTypes" [value]="type.code" [attr.selected]="event.typeCode===type.code">
+                                                                    {{type.name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="description" class="col-12 col-form-label">Description</label>
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" id="description" formControlName="description" [(ngModel)]="event.description">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" (click)="removeEvent()">Supprimer</button>
+                                                <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" (click)="updateEvent()">Modifier</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal on drop creation -->
+                                <div class="modal fade" id="create-event-drop-modal">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header modal-success d-block">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h5 class="modal-title">Nouvelle activité</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="newType" class="col-form-label">Type</label>
+                                                    <select class="form-control" [(ngModel)]="newTypeCode">
+                                                        <option *ngFor="let type of activityTypes" id="newDropType" [value]="type.code" [attr.selected]="newTypeCode===type.code">
                                                             {{type.name}}
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="description" class="col-2 col-form-label">Description</label>
-                                                <div class="col-10">
-                                                    <input class="form-control" type="text" id="description" formControlName="description" [(ngModel)]="event.description">
+                                            <div class="modal-footer">
+                                                <button data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                                <button (click)="createDropEvent()" class="btn btn-success">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal on creation -->
+                                <div class="modal fade" id="create-event-modal">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header modal-success d-block">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h5 class="modal-title">Nouvelle activité</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="newProject" class="col-form-label">Projet</label>
+                                                    <select class="form-control" [(ngModel)]="event.title">
+                                                        <option *ngFor="let project of projects" id="newProject" [value]="project.code" [attr.selected]="event.title===project.code">
+                                                            {{project.name}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="newType" class="col-form-label">Type</label>
+                                                    <select class="form-control" [(ngModel)]="event.typeCode">
+                                                        <option *ngFor="let type of activityTypes" id="newType" [value]="type.code" [attr.selected]="event.typeCode===type.code">
+                                                            {{type.name}}
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" (click)="removeEvent()">Supprimer</button>
-                                        <button type="button" class="btn btn-info btn-sm" data-dismiss="modal" (click)="updateEvent()">Modifier</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal on drop creation -->
-                        <div class="modal fade" id="create-event-drop-modal">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header modal-success d-block">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h5 class="modal-title">Nouvelle activité</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="newType" class="col-2 col-form-label">Type</label>
-                                            <select class="form-control" [(ngModel)]="newTypeCode">
-                                                <option *ngFor="let type of activityTypes" id="newDropType" [value]="type.code" [attr.selected]="newTypeCode===type.code">
-                                                    {{type.name}}
-                                                </option>
-                                            </select>
+                                            <div class="modal-footer">
+                                                <button data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                                <button (click)="createEvent()" class="btn btn-success">OK</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                        <button (click)="createDropEvent()" class="btn btn-success">OK</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal on creation -->
-                        <div class="modal fade" id="create-event-modal">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header modal-success d-block">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h5 class="modal-title">Nouvelle activité</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="newProject" class="col-2 col-form-label">Projet</label>
-                                            <select class="form-control" [(ngModel)]="event.title">
-                                                <option *ngFor="let project of projects" id="newProject" [value]="project.code" [attr.selected]="event.title===project.code">
-                                                    {{project.name}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="newType" class="col-2 col-form-label">Type</label>
-                                            <select class="form-control" [(ngModel)]="event.typeCode">
-                                                <option *ngFor="let type of activityTypes" id="newType" [value]="type.code" [attr.selected]="event.typeCode===type.code">
-                                                    {{type.name}}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button data-dismiss="modal" class="btn btn-default">Cancel</button>
-                                        <button (click)="createEvent()" class="btn btn-success">OK</button>
                                     </div>
                                 </div>
                             </div>
@@ -133,4 +143,4 @@
             </div>
         </div>
     </div>
-<!--</div>-->
+</div>

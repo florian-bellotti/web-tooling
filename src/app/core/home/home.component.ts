@@ -6,6 +6,7 @@ import {ProjectService} from '../project/providers/project.service';
 import {ActivityTypeService} from '../project/providers/activityType.service';
 import {AppConfig} from '../../app.config';
 import {TokenService} from '../user/providers/token.service';
+import {ActivityType} from '../project/models/activityType';
 
 @Component({
     selector: 'app-tooling-home',
@@ -15,9 +16,10 @@ import {TokenService} from '../user/providers/token.service';
 export class HomeComponent implements OnInit {
 
     private activities;
-    private projects;
+    projects = [];
+    activityTypes: ActivityType[] = [];
 
-    public option = {animation : false};
+    public options = {animation : false};
 
     public activityByMonth = false;
     public activityByMonthType = 'doughnut';
@@ -32,17 +34,15 @@ export class HomeComponent implements OnInit {
 
     public projectChartType = 'bar';
     public projectChartLegend = true;
-    public projectChartLabels = ['Conception', 'Management', 'Développement', 'Recette'];
-   // public projectChartData = [];
+    public projectChartLabels = [];
     public projectChartOptions = {
         scaleShowVerticalLines: false,
-        responsive: true
+        responsive: true,
+        animation : false
     };
 
-    public projectChartData = [
-        {data: [65, 59, 80, 81], label: 'Actuel'},
-        {data: [28, 48, 40, 19], label: 'Estimé'}
-    ];
+    public projectChartData = [];
+    showCharts = false;
 
     constructor(private activityService: ActivityService,
                 private projectService: ProjectService,
@@ -53,12 +53,23 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.activityByMonthLabels = [];
         this.activityByMonthData = [];
-        this.projectService
-            .getAllProjects()
-            .subscribe(projects => {
-                this.projects = projects;
-                this.getActivityByMonth();
-                this.getTypeActivityByMonth()
+        this.getActivityTypes();
+    }
+
+    private getActivityTypes() {
+        this.activityTypeService
+            .getAll()
+            .subscribe(activityTypes => {
+                this.activityTypes = activityTypes;
+                this.projectService
+                    .getAllProjects()
+                    .subscribe(projects => {
+                        this.projects = projects;
+                        this.getActivityByMonth();
+                        this.getTypeActivityByMonth()
+                    });
+            }, error => {
+                console.log(error)
             });
     }
 
@@ -68,12 +79,13 @@ export class HomeComponent implements OnInit {
             .subscribe(activities => {
                 this.activities = activities;
                 const labels: string[] = [];
+                const projectsId = [];
                 const data: number[] = [];
                 const backgroundColor = [];
                 if (activities) {
                     for (const i in activities) {
                         labels.push(activities[i].code);
-                        data.push(activities[i].duration / 60 / 60);
+                        data.push(activities[i].duration / 7 / 60 / 60);
                         const rgba = this.appConfig.rgba(this.getColorFromProjectCode(activities[i].code), 0.5);
                         backgroundColor.push(rgba)
                     }
@@ -82,9 +94,49 @@ export class HomeComponent implements OnInit {
                     this.activityByMonthColor = [{backgroundColor: backgroundColor}];
                     this.activityByMonth = true;
                 }
+                this.getProjectDurations(labels);
             }, error => {
                 console.log(error);
             })
+    }
+
+    private getProjectDurations(projectsCode) {
+        this.activityService
+            .aggregateDurations({projects: projectsCode, grpByUser: false, grpByType: true})
+            .subscribe(codeDurations => {
+                this.initCharts(codeDurations);
+            }, error => {
+                console.log(error);
+            });
+    }
+
+    private initCharts(codeDurations) {
+        console.log(codeDurations);
+        this.activityTypes
+            .forEach(activityType => {
+                for (const i in this.projects) {
+                    const property = this.projects[i].properties[activityType.code];
+                    if (property) {
+                        if (!this.projectChartLabels[this.projects[i].code]) {
+                            this.projectChartLabels[this.projects[i].code] = []
+                        }
+                        if (!this.projectChartData[this.projects[i].code]) {
+                            this.projectChartData[this.projects[i].code] = [
+                                {data: [], label: 'Réalisé'},
+                                {data: [], label: 'Estimé'}];
+                        }
+                        this.projectChartLabels[this.projects[i].code].push(activityType.name);
+                        this.projectChartData[this.projects[i].code][1].data.push(property.duration);
+                        for (const y in codeDurations) {
+                            if (codeDurations[y].typeCode === activityType.code && codeDurations[y].code === this.projects[i].code) {
+                                this.projectChartData[this.projects[i].code][0].data.push(codeDurations[y].duration / 7 / 60 / 60);
+                                break;
+                            }
+                        }
+                    }
+                }
+                this.showCharts = true;
+            });
     }
 
     public getTypeActivityByMonth() {
@@ -96,7 +148,6 @@ export class HomeComponent implements OnInit {
                 grpByType: true
             })
             .subscribe(activities => {
-                console.log(activities);
                 this.activities = activities;
                 const labels: string[] = [];
                 const data: number[] = [];
@@ -104,7 +155,7 @@ export class HomeComponent implements OnInit {
                 if (activities) {
                     for (const i in activities) {
                         labels.push(activities[i].typeCode);
-                        data.push(activities[i].duration / 60 / 60);
+                        data.push(activities[i].duration / 7 / 60 / 60);
                     }
                     this.typeActivityByMonthLabels = labels;
                     this.typeActivityByMonthData = data;

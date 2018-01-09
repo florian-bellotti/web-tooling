@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-8">
+    <h1>Les projets</h1>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-primary" (click)="newProject()" style="position: absolute; right: 15px;">Nouveau projet</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-4 col-lg-4 col-md-6 col-12 bottom-30" *ngFor="let project of projects; let i = index">
+    <a [routerLink]="['/project', project.id]">
+      <div class="card">
+        <div class="card-body">
+          <h3>{{project.name}}</h3>
+          <p>{{project.description | slice:0:150}} ...</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <h1>Les types d'activités</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 bottom-30">
+    <div class="card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Code</th>
+            <th>Nom</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <input type="text" class="form-control" placeholder="code" name="id" [(ngModel)]="newActivityType.code" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="name" name="name" [(ngModel)]="newActivityType.name" required>
+            </td>
+            <td><button type="submit" class="btn btn-primary" (click)="createActivityType(newActivityType)">Ajouter</button></td>
+          </tr>
+          <tr *ngFor="let activityType of activityTypes; let i = index">
+            <th>{{activityType.code}}</th>
+            <td>
+              <input type="text" class="form-control" placeholder="name" name="name-{{i}}" [(ngModel)]="activityType.name" required>
+            </td>
+            <td>
+              <button (click)="removeActivityTypes(activityType.id)" class="btn btn-warning">Supprimer</button>
+              <button (click)="updateActivityTypes(activityType)" class="btn btn-primary">Modifier</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

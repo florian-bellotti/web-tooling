@@ -76,7 +76,6 @@ export class CraComponent implements OnInit {
         this.activityTypeService
             .getAll()
             .subscribe(activityTypes => {
-                console.log(activityTypes);
                 this.activityTypes = activityTypes;
             }, error => {
                 console.log(error)

@@ -1,70 +1,80 @@
 <div class="row">
-  <h1>Mes informations</h1>
-  <div *ngIf="!showUserForm">
-    <p>Email : {{user.email}}</p>
-    <p>Prénom : {{user.firstName}}</p>
-    <p>Nom : {{user.lastName}}</p>
-    <p>Adresse : {{user.address}}</p>
-    <p>Numéro de téléphone : {{user.phone}}</p>
-    <button (click)="changeShowForm()" class="btn btn-light">Modifier</button>
+  <div class="col-12">
+    <h1>Mes informations</h1>
   </div>
-  <form *ngIf="showUserForm" [formGroup]="userForm" (ngSubmit)="updateUser()" (change)="onFormChange()">
-    <div class="form-group row">
-      <label for="email" class="col-2 col-form-label">Email</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="email" formControlName="email" [(ngModel)]="user.email">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="firstName" class="col-2 col-form-label">Prénom</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="firstName" formControlName="firstName" [(ngModel)]="user.firstName">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="lastName" class="col-2 col-form-label">Nom</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="lastName" formControlName="lastName" [(ngModel)]="user.lastName">
-      </div>
-    </div>
-
-    <p>groups</p>
-
-    <div class="form-group row">
-      <label for="address" class="col-2 col-form-label">Adresse</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="address" formControlName="address" [(ngModel)]="user.address">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="phone" class="col-2 col-form-label">Numéro de téléphone</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="phone" formControlName="phone" [(ngModel)]="user.phone">
-      </div>
-    </div>
-
-    <!--groups: Array<string>;
-
-    <div class="form-group">
-      <label for="exampleSelect1">Example select</label>
-      <select class="form-control" id="exampleSelect1">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </select>
-    </div> -->
-    <button [disabled]="!formChange" type="submit" class="btn btn-primary">Modifier</button>
-    <button (click)="changeShowForm()" class="btn btn-light">Retour</button>
-
-    <div>
-      <p *ngIf="errorMessage" class="alert-danger text-center">
-        {{errorMessage}}
-      </p>
-    </div>
-
-    <!-- TODO: add success message in toast -->
-  </form>
 </div>
 
+<div class="row">
+  <div class="col-12 bottom-30">
+    <div class="card">
+      <div class="card-body">
+        <div *ngIf="!showUserForm">
+          <p><strong>Email :</strong> {{user.email}}</p>
+          <p><strong>Prénom :</strong> {{user.firstName}}</p>
+          <p><strong>Nom :</strong> {{user.lastName}}</p>
+          <p><strong>Adresse :</strong> {{user.address}}</p>
+          <p><strong>Numéro de téléphone :</strong> {{user.phone}}</p>
+          <button (click)="changeShowForm()" class="btn btn-light">Modifier</button>
+        </div>
+        <form *ngIf="showUserForm" [formGroup]="userForm" (ngSubmit)="updateUser()" (change)="onFormChange()">
+          <div class="form-group row">
+            <label for="email" class="col-2 col-form-label">Email</label>
+            <div class="col-10">
+              <input class="form-control" type="text" id="email" formControlName="email" [(ngModel)]="user.email">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="firstName" class="col-2 col-form-label">Prénom</label>
+            <div class="col-10">
+              <input class="form-control" type="text" id="firstName" formControlName="firstName" [(ngModel)]="user.firstName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="lastName" class="col-2 col-form-label">Nom</label>
+            <div class="col-10">
+              <input class="form-control" type="text" id="lastName" formControlName="lastName" [(ngModel)]="user.lastName">
+            </div>
+          </div>
+
+         <!-- <p>groups</p>-->
+
+          <div class="form-group row">
+            <label for="address" class="col-2 col-form-label">Adresse</label>
+            <div class="col-10">
+              <input class="form-control" type="text" id="address" formControlName="address" [(ngModel)]="user.address">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phone" class="col-2 col-form-label">Numéro de téléphone</label>
+            <div class="col-10">
+              <input class="form-control" type="text" id="phone" formControlName="phone" [(ngModel)]="user.phone">
+            </div>
+          </div>
+
+          <!--groups: Array<string>;
+
+          <div class="form-group">
+            <label for="exampleSelect1">Example select</label>
+            <select class="form-control" id="exampleSelect1">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div> -->
+          <button (click)="changeShowForm()" class="btn btn-light">Retour</button>
+          <button [disabled]="!formChange" type="submit" class="btn btn-primary">Modifier</button>
+
+          <div>
+            <p *ngIf="errorMessage" class="alert-danger text-center">
+              {{errorMessage}}
+            </p>
+          </div>
+
+          <!-- TODO: add success message in toast -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

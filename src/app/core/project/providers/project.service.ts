@@ -3,6 +3,7 @@ import {Http, Response} from '@angular/http';
 import {environment} from '../../../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {HeaderService} from '../../user/providers/header.service';
+import {Project} from '../models/project';
 
 @Injectable()
 export class ProjectService {
@@ -15,9 +16,17 @@ export class ProjectService {
         this.server = environment.hostServer;
     }
 
-    getAllProjects() {
+    getAllProjects(): Observable<Project[]> {
         return this.http
             .get(this.server + ProjectService.PATH,
+                this.headerService.getOptionWithoutContentType())
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
+    }
+
+    getProject(id: string): Observable<Project> {
+        return this.http
+            .get(this.server + ProjectService.PATH + '?id=' + id,
                 this.headerService.getOptionWithoutContentType())
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))

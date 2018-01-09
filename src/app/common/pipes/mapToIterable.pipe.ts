@@ -7,6 +7,16 @@ export class MapToIterable implements PipeTransform {
             return undefined;
         }
         return Object.keys(map)
-            .map((key) => ({ 'key': key, 'value': map[key] }));
+            .map(key => {
+                if (key !== 'user') {
+                    if (!isNaN(parseFloat(map[key])) && isFinite(map[key])) {
+                        let arrondi = map[key] * 100;
+                        arrondi = Math.round(arrondi);
+                        return arrondi / 100;
+                    }
+                    return map[key]
+                } else {
+                    return undefined
+                }});
     }
 }

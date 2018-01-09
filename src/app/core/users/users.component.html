@@ -1,69 +1,86 @@
 <div class="row">
-  <h1>Les utilisateurs</h1>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Email</th>
-      <th>Prénom</th>
-      <th>Nom</th>
-      <th>Authorisations</th>
-      <th>Adresse</th>
-      <th>Téléphone</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>
-        <input type="text" class="form-control" placeholder="Email" name="email" [(ngModel)]="newUser.email" required>
-        <input type="text" class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="newUser.password" required>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Prénom" name="firstName" [(ngModel)]="newUser.firstName" required>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Nom" name="lastName" [(ngModel)]="newUser.lastName" required>
-      </td>
-      <td>
-        <select class="form-control" name="groups" [(ngModel)]="newUser.groups" multiple required>
-          <option *ngFor="let g of groups" [ngValue]="g">{{ g }}</option>
-        </select>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Adresse" name="address" [(ngModel)]="newUser.address">
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Téléphone" name="phone" [(ngModel)]="newUser.phone">
-      </td>
-      <td><button type="submit" class="btn btn-primary" (click)="createUser()">Ajouter</button></td>
-    </tr>
-    <tr *ngFor="let user of users; let i = index">
-      <td>
-        <input type="text" class="form-control" placeholder="Email" name="email" [(ngModel)]="user.email" required>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Prénom" name="firstName" [(ngModel)]="user.firstName" required>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Nom" name="lastName" [(ngModel)]="user.lastName" required>
-      </td>
-      <td>
-        <select class="form-control" name="groups" [(ngModel)]="user.groups" multiple required>
-          <option *ngFor="let g of groups" [ngValue]="g">{{ g }}</option>
-        </select>
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Adresse" name="address" [(ngModel)]="user.address">
-      </td>
-      <td>
-        <input type="text" class="form-control" placeholder="Téléphone" name="phone" [(ngModel)]="user.phone">
-      </td>
-      <td>
-        <button (click)="removeUser(user.id)" class="btn btn-warning">Supprimer</button>
-        <button (click)="updateUser(user)" class="btn btn-primary">Modifier</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="col-12">
+    <h1>Les utilisateurs</h1>
+  </div>
 </div>
 
+<div class="row">
+  <div class="col-12 bottom-30">
+    <div class="card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Email</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Authorisations</th>
+           <!-- <th>Adresse</th>
+            <th>Téléphone</th>
+            <th>Durée de travail par jour (en heure)</th>-->
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <input type="text" class="form-control" placeholder="Email" name="email" [(ngModel)]="newUser.email" required>
+              <input type="text" class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="newUser.password" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Prénom" name="firstName" [(ngModel)]="newUser.firstName" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Nom" name="lastName" [(ngModel)]="newUser.lastName" required>
+            </td>
+            <td>
+              <select class="form-control" name="groups" [(ngModel)]="newUser.groups" multiple required>
+                <option *ngFor="let g of groups" [ngValue]="g">{{ g }}</option>
+              </select>
+            </td>
+          <!--  <td>
+              <input type="text" class="form-control" placeholder="Adresse" name="address" [(ngModel)]="newUser.address">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Téléphone" name="phone" [(ngModel)]="newUser.phone">
+            </td>
+            <td>
+              <input type="number" class="form-control" placeholder="Durée de travail" name="workDuration" [(ngModel)]="newUser.workDuration">
+            </td>-->
+            <td><button type="submit" class="btn btn-primary" (click)="createUser()">Ajouter</button></td>
+          </tr>
+          <tr *ngFor="let user of users; let i = index">
+            <td>
+              <input type="text" class="form-control" placeholder="Email" name="email" [(ngModel)]="user.email" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Prénom" name="firstName" [(ngModel)]="user.firstName" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Nom" name="lastName" [(ngModel)]="user.lastName" required>
+            </td>
+            <td>
+              <select class="form-control" name="groups" [(ngModel)]="user.groups" multiple required>
+                <option *ngFor="let g of groups" [ngValue]="g">{{ g }}</option>
+              </select>
+            </td>
+        <!--    <td>
+              <input type="text" class="form-control" placeholder="Adresse" name="address" [(ngModel)]="user.address">
+            </td>
+            <td>
+              <input type="text" class="form-control" placeholder="Téléphone" name="phone" [(ngModel)]="user.phone">
+            </td>
+            <td>
+              <input type="number" class="form-control" placeholder="Durée de travail" name="workDuration" [(ngModel)]="user.workDuration">
+            </td>-->
+            <td>
+              <button (click)="removeUser(user.id)" class="btn btn-warning">Supprimer</button>
+              <button (click)="updateUser(user)" class="btn btn-primary">Modifier</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

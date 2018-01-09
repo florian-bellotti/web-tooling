@@ -2,6 +2,8 @@
 import 'style-loader!fullcalendar/dist/fullcalendar.min.css';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import 'rxjs/add/operator/switchMap';
+import {ActivatedRoute, Router} from '@angular/router';
 
 // Services
 import {ProjectService} from './providers/project.service';
@@ -10,29 +12,24 @@ import {ActivityType} from './models/activityType';
 import {ActivityTypeService} from './providers/activityType.service';
 
 @Component({
-    selector: 'app-tooling-project',
+    selector: 'app-tooling-list-project',
     encapsulation: ViewEncapsulation.None,
-    templateUrl: './project.component.html'
+    templateUrl: './project-list.component.html'
 })
-export class ProjectComponent implements OnInit {
+export class ProjectListComponent implements OnInit {
 
-    private status: string[] = ['ACTIVE', 'INACTIVE'];
-    public projects: Array<Project>  = [];
-    public newProject: Project;
+    public projects: Array<Project> = [];
     public activityTypes: Array<ActivityType> = [];
     public newActivityType: ActivityType;
 
-    constructor(private fb: FormBuilder,
-                private projectService: ProjectService,
-                private activityTypeService: ActivityTypeService) {}
+    constructor(
+        private fb: FormBuilder,
+        private projectService: ProjectService,
+        private activityTypeService: ActivityTypeService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
-        this.newProject = new Project();
-        this.newProject.properties = new Map();
-        this.newProject.properties.set('DEV', {duration: 12});
-        this.newProject.properties.set('MAP', {duration: 12});
-        this.newProject.properties.set('MAN', {duration: 12});
-        console.log(this.newProject);
         this.newActivityType = new ActivityType();
         this.getProjects();
         this.getActivityTypes();
@@ -48,36 +45,14 @@ export class ProjectComponent implements OnInit {
             });
     }
 
-    public createProject() {
-        this.projectService
-            .create(this.newProject)
-            .subscribe(data => {
-                this.newProject = new Project();
-                this.getProjects();
-            }, error => {
-                console.log(error)
-            });
-    }
-
-    public updateProject(project) {
-        this.projectService
-            .update(project)
-            .subscribe();
-    }
-
-    public removeProject(id) {
-        this.projectService
-            .remove(id)
-            .subscribe(data => {
-                this.getProjects();
-            });
+    newProject() {
+        this.router.navigate(['/project/newProject'])
     }
 
     private getActivityTypes() {
         this.activityTypeService
             .getAll()
             .subscribe(activityTypes => {
-                console.log(activityTypes);
                 this.activityTypes = activityTypes;
             }, error => {
                 console.log(error)

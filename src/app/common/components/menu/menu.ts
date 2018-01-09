@@ -16,21 +16,19 @@ export const menuItems = [
         order: 200
     },
     {
-        title: 'Paramètres',
-        routerLink: '/settings',
-        icon: 'fa-cog',
+        title: 'Les projets',
+        routerLink: '/projects',
+        icon: 'fa-object-group',
         selected: false,
         expanded: false,
-        order: 300,
-        subMenu: [
-            {
-                title: 'Projets',
-                routerLink: '/settings/projects'
-            },
-            {
-                title: 'Utilisateurs',
-                routerLink: '/settings/users'
-            }
-        ]
+        order: 300
+    },
+    {
+        title: 'Utilisateurs',
+        routerLink: '/users',
+        icon: 'fa-users',
+        selected: false,
+        expanded: false,
+        order: 400
     }
 ];

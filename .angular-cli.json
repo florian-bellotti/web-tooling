@@ -30,12 +30,12 @@
         "../node_modules/jquery-ui-dist/jquery-ui.min.js",
         "../node_modules/popper.js/dist/umd/popper.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/jquery-knob/dist/jquery.knob.min.js",
         "../node_modules/d3/d3.min.js",
         "../node_modules/moment/moment.js",
         "../node_modules/fullcalendar/dist/fullcalendar.min.js",
-        "../node_modules/fullcalendar/dist/locale/fr.js",
-        "../node_modules/chart.js/src/chart.js"
+        "../node_modules/fullcalendar/dist/locale/fr.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

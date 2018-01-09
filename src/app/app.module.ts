@@ -3,6 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {NgModule} from '@angular/core';
+
 // imports
 import {AppComponent} from './app.component';
 import {AuthService} from './login/providers/auth.service';
@@ -19,7 +20,8 @@ import {TokenService} from './core/user/providers/token.service';
 import {MenuComponent} from './common/components/menu/menu.component';
 import {TemplateComponent} from './core/template.component';
 import {NavbarComponent} from './common/components/navbar/navbar.component';
-import {PipesModule} from "./common/pipes/pipes.module";
+import {PipesModule} from './common/pipes/pipes.module';
+import {ProjectsModule} from './core/project/projects.module';
 
 @NgModule({
     declarations: [
@@ -37,6 +39,7 @@ import {PipesModule} from "./common/pipes/pipes.module";
         BrowserAnimationsModule,
         LoginRoutingModule,
         CoreRoutingModule,
+        ProjectsModule,
         HttpModule
     ],
     providers: [AuthService, AuthGuard, HttpModule, AppConfig, AppState, HeaderService, TokenService],
