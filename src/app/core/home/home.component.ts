@@ -36,9 +36,15 @@ export class HomeComponent implements OnInit {
     public projectChartLegend = true;
     public projectChartLabels = [];
     public projectChartOptions = {
-        scaleShowVerticalLines: false,
         responsive: true,
-        animation : false
+        animation : false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0
+                }
+            }]
+        }
     };
 
     public projectChartData = [];
